@@ -1,0 +1,53 @@
+{
+  "summary": "First iteration. Backend FastAPI mirror is solid (17/17 pytest tests passing). Frontend home page renders correctly with hero, campaign banner, marquee, stats, About, social icons; referrer chip works with ?ref=. Admin login flow works (wrong pw rejected, correct pw logs in); all 7 admin tabs and their data-testids are present and wired. Claims table Credit/Reject buttons work end-to-end (verified pending → credited flip on row #1). On-chain tab fetches live BSC RPC data (chain_id=56, block_number, marketing wallet BNB balance). However, the Credit tab 'Record credit' button is NOT wired — no API call happens on click.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Admin → CreditTab",
+        "issue": "The 'Record credit' submit button is missing onClick={submit}. The submit() handler is defined but never invoked, so clicking the button does nothing (no API call, no toast, no list refresh). The Credit form is also NOT wrapped in a <form onSubmit={submit}>, unlike the login form, so there is no fallback path either. Verified via UI (form filled, button clicked, GET /api/admin/credits?address=0x9999… returned total=0).",
+        "selector": "[data-testid=\"admin-credit-submit-btn\"]",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Admin manual credit",
+        "issue": "Submitting the Manual credit form does not POST to /api/admin/credit because the button has no onClick handler.",
+        "affected_selectors": ["[data-testid=\"admin-credit-submit-btn\"]"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_humanity_coin.py",
+    "/app/test_reports/pytest/results.xml"
+  ],
+  "action_items": [
+    "Fix /app/frontend/src/components/Admin.jsx CreditTab: add onClick={submit} to the Record credit button (line ~212), OR wrap the inputs+button in a <form onSubmit={(e)=>{e.preventDefault();submit();}}> so Enter / button click submits. Recommend the onClick fix for parity with the other tabs (Content/Campaign/Social all use onClick={save})."
+  ],
+  "critical_code_review_comments": [
+    "Admin.jsx CreditTab 'Record credit' button is dead — onClick missing (other Save buttons in Content/Campaign/Social all have onClick={save}, this one was just forgotten).",
+    "server.py is 567 lines — borderline acceptable but consider splitting admin routes vs public routes for maintainability if it grows.",
+    "Backend correctly excludes Mongo _id from responses (uses _seq as numeric id).",
+    "_normalize_social() in backend correctly auto-prepends https:// — verified end-to-end (admin posts 'facebook.com/hc', GET /api/config returns 'https://facebook.com/hc', footer links use the URL).",
+    "Frontend axios interceptor only injects Bearer token for paths starting with /admin — correct.",
+    "Campaign banner appeared in homepage immediately after admin enabled it — config is fetched on each home load."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_humanity_coin.py"
+  ],
+  "success_rate": {
+    "backend": "100%",
+    "frontend": "~92% (1 broken submit button on Admin Credit tab)"
+  },
+  "test_credentials": "Admin password: humanity-admin-2026 (from /app/memory/test_credentials.md and prompt). Verified working.",
+  "seed_data_creation": "Tests created several wallets/claims/credits via API and via UI Credit (#2 row credited via UI). Campaign + Social settings set during tests were reverted to empty at end so the home page no longer shows a campaign banner / social URLs unless re-enabled by admin.",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend is fully covered by /app/backend/tests/test_humanity_coin.py (17 tests, pytest parallel safe — each test uses a unique address derived from time). The only outstanding fix is wiring the CreditTab button. Re-test: open /admin, login with humanity-admin-2026, go to Credit tab, fill address/amount, click 'Record credit' — should see toast 'Credit recorded' and a new row in the Credit history table. The PHP deliverable in /app/dist/humanity-coin/ was NOT tested in preview (FastAPI is the live preview backend).",
+  "rca of the issue": "RCA: In /app/frontend/src/components/Admin.jsx line 212, the Record credit <button> has data-testid and disabled props but no onClick. The submit() async function (line 192-201) which calls api.adminCredit({...}) is never bound. Other Save buttons in the same file (lines 295/326/360) correctly use onClick={save}. Reproduction: /admin → login → Credit tab → fill fields → click Record credit → nothing happens. Mitigation: change line 212 to <button data-testid={TID.adminCreditSubmit} disabled={busy || !form.address || !form.amount} onClick={submit} className=\"hc-btn w-full\">. One-line fix."
+}
