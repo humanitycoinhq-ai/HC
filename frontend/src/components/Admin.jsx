@@ -209,7 +209,7 @@ function CreditTab() {
                     <input data-testid={TID.adminCreditAmount} className="hc-input" placeholder="Amount (HUMAN)" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form, amount:e.target.value})}/>
                     <input data-testid={TID.adminCreditNote}   className="hc-input" placeholder="Note (optional)" value={form.note} onChange={e=>setForm({...form, note:e.target.value})}/>
                     <input data-testid={TID.adminCreditTx}     className="hc-input font-mono !text-[12px]" placeholder="tx_hash (optional)" value={form.tx_hash} onChange={e=>setForm({...form, tx_hash:e.target.value})}/>
-                    <button data-testid={TID.adminCreditSubmit} disabled={busy || !form.address || !form.amount} className="hc-btn w-full">{busy ? "Saving…" : "Record credit"}</button>
+                    <button data-testid={TID.adminCreditSubmit} disabled={busy || !form.address || !form.amount} onClick={submit} className="hc-btn w-full">{busy ? "Saving…" : "Record credit"}</button>
                 </div>
             </div>
             <div className="hc-card overflow-hidden" data-testid={TID.adminCreditsTable}>
