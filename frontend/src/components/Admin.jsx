@@ -137,7 +137,7 @@ function ClaimRow({ c, onUpdate }) {
         <tr data-testid={TID.adminClaimRow(c.id)}>
             <td className="font-mono">#{c.id}</td>
             <td className="font-mono">{shorten(c.wallet_address, 7)}</td>
-            <td>{fmtAmount(c.amount)} <span className="text-[var(--hc-text-mute)] text-[11px]">HUMAN</span></td>
+            <td>{fmtAmount(c.amount)} <span className="text-[var(--hc-text-mute)] text-[11px]">HC</span></td>
             <td><span className={`chip chip-${c.status}`}>{c.status}</span></td>
             <td>
                 <input data-testid={TID.adminClaimTxInput(c.id)} className="hc-input !py-1.5 !text-[11.5px] font-mono !w-[260px]"
@@ -176,7 +176,7 @@ function ReferralsTab() {
                                 <td className="font-mono">#{r.id}</td>
                                 <td className="font-mono">{shorten(r.referrer_address, 7)}</td>
                                 <td className="font-mono">{shorten(r.referee_address, 7)}</td>
-                                <td>+{fmtAmount(r.bonus_amount)} HUMAN</td>
+                                <td>+{fmtAmount(r.bonus_amount)} HC</td>
                                 <td><span className={`chip chip-${r.status}`}>{r.status}</span></td>
                                 <td className="text-[var(--hc-text-dim)] text-[12px]">{new Date(r.created_at).toLocaleString()}</td>
                             </tr>
@@ -212,7 +212,7 @@ function CreditTab() {
                 <p className="text-[13px] text-[var(--hc-text-dim)] mt-1">Record an off-chain payout or correction. Updates the wallet's credited balance.</p>
                 <div className="mt-5 space-y-3">
                     <input data-testid={TID.adminCreditAddr}   className="hc-input font-mono" placeholder="0x… address" value={form.address} onChange={e=>setForm({...form, address:e.target.value})}/>
-                    <input data-testid={TID.adminCreditAmount} className="hc-input" placeholder="Amount (HUMAN)" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form, amount:e.target.value})}/>
+                    <input data-testid={TID.adminCreditAmount} className="hc-input" placeholder="Amount (HC)" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form, amount:e.target.value})}/>
                     <input data-testid={TID.adminCreditNote}   className="hc-input" placeholder="Note (optional)" value={form.note} onChange={e=>setForm({...form, note:e.target.value})}/>
                     <input data-testid={TID.adminCreditTx}     className="hc-input font-mono !text-[12px]" placeholder="tx_hash (optional)" value={form.tx_hash} onChange={e=>setForm({...form, tx_hash:e.target.value})}/>
                     <button data-testid={TID.adminCreditSubmit} disabled={busy || !form.address || !form.amount} onClick={submit} className="hc-btn w-full">{busy ? "Saving…" : "Record credit"}</button>
@@ -231,7 +231,7 @@ function CreditTab() {
                                 <tr key={r.id}>
                                     <td className="font-mono">#{r.id}</td>
                                     <td className="font-mono">{shorten(r.wallet_address, 7)}</td>
-                                    <td>{fmtAmount(r.amount)} HUMAN</td>
+                                    <td>{fmtAmount(r.amount)} HC</td>
                                     <td className="text-[var(--hc-text-dim)]">{r.note || "—"}</td>
                                     <td className="font-mono text-[11.5px] text-[var(--hc-text-dim)]">{r.tx_hash ? shorten(r.tx_hash, 7) : "—"}</td>
                                     <td className="text-[var(--hc-text-dim)] text-[12px]">{new Date(r.created_at).toLocaleString()}</td>
@@ -445,9 +445,9 @@ function OnchainTab() {
                     <KV label="Block number"      value={d.block_number ?? "—"}/>
                     <KV label="RPC"               value={d.rpc_url} mono/>
                     <KV label="Contract"          value={d.contract_address || "Not set"} mono/>
-                    <KV label="Total supply"      value={d.total_supply ? `${fmtAmount(Number(d.total_supply))} HUMAN` : "—"}/>
+                    <KV label="Total supply"      value={d.total_supply ? `${fmtAmount(Number(d.total_supply))} HC` : "—"}/>
                     <KV label="Marketing wallet"  value={d.marketing_wallet} mono/>
-                    <KV label="Marketing balance" value={d.marketing_balance ? `${fmtAmount(Number(d.marketing_balance))} HUMAN` : "—"}/>
+                    <KV label="Marketing balance" value={d.marketing_balance ? `${fmtAmount(Number(d.marketing_balance))} HC` : "—"}/>
                     <KV label="Native BNB"        value={d.bnb_balance ? `${fmtAmount(Number(d.bnb_balance), 4)} BNB` : "—"}/>
                 </div>
             )}

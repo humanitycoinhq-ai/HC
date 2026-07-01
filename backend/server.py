@@ -395,6 +395,7 @@ async def admin_claims(status: str = "", address: str = "", limit: int = 100, of
             "id": int(r.get("_seq", 0)), "wallet_address": r["wallet_address"],
             "amount": float(r["amount"]), "status": r["status"], "tx_hash": r.get("tx_hash"),
             "claimed_at": r["claimed_at"], "credited_at": r.get("credited_at"),
+            "bnb_paid": float(r.get("bnb_paid") or 0), "unlock_at": r.get("unlock_at"),
         })
     return {"total": total, "limit": limit, "offset": offset, "items": items}
 

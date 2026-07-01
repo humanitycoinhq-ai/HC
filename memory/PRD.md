@@ -58,3 +58,13 @@ Rebuild Humanity Coin as a PHP 8 + MySQL + React stack for FTP-upload deployment
 - `/app/backend/server.py` (live preview mirror)
 - `/app/frontend/src/App.js`, `src/components/Home.jsx`, `src/components/Admin.jsx`
 - `/app/frontend/src/constants/testIds/index.js`
+
+## Session update (2026-07-01)
+- Rebuilt production React (relative /api base) and repackaged final deliverable: /app/dist/humanity-coin.zip (1.1MB, 43 files) — includes new tokenomics, transparent hc-coin.png logo, whitepaper content, no Emergent badge
+- Fixed hero Stat overflow ("1,000,000,000" no longer truncated — auto-shrinks for long values)
+- Renamed leftover "HUMAN" labels → "HC" in Admin.jsx
+- Added bnb_paid + unlock_at to admin claims response (server.py AND dist PHP admin_claims.php — kept in sync)
+- Deleted obsolete legacy test file test_humanity_coin.py
+- Testing: iteration_2.json — 16/16 backend tests pass, frontend home + admin flows 100%
+- CONTRACT_REVIEW.md finalized and bundled into ZIP under /contracts/
+- Confirmed for user: ZIP is portable — works on DirectAdmin shared hosting AND AWS EC2 (Apache/Nginx + PHP8 + MySQL, point A record to Elastic IP)
