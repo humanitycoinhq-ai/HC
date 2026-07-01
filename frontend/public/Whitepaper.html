@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Humanity Coin ($HC) — Official Whitepaper v2.1</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/PptxGenJS@3.12.0/dist/pptxgen.bundle.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{font-family:'Inter',sans-serif}html{scroll-behavior:smooth;background:#050505}body{background:#050505;color:#fff}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.animate-fade-up{animation:fadeUp .8s ease-out forwards;opacity:0}.delay-100{animation-delay:.1s}.delay-200{animation-delay:.2s}.delay-300{animation-delay:.3s}.delay-400{animation-delay:.4s}.delay-500{animation-delay:.5s}.delay-600{animation-delay:.6s}.delay-700{animation-delay:.7s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(3deg)}}.animate-float{animation:float 6s ease-in-out infinite}
+@keyframes pulse-glow{0%,100%{box-shadow:0 0 20px rgba(59,130,246,.15),0 0 60px rgba(59,130,246,.05)}50%{box-shadow:0 0 40px rgba(59,130,246,.3),0 0 100px rgba(59,130,246,.1)}}.pulse-glow{animation:pulse-glow 3s ease-in-out infinite}
+@keyframes spin-slow{from{transform:rotate(0)}to{transform:rotate(360deg)}}.animate-spin-slow{animation:spin-slow 20s linear infinite}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}.shimmer-text{background:linear-gradient(90deg,#fff 0%,#60a5fa 25%,#fff 50%,#60a5fa 75%,#fff 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+.glass{background:rgba(23,23,23,.5);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.05)}.glass-strong{background:rgba(23,23,23,.8);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.08)}
+.gradient-border{position:relative}.gradient-border::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(59,130,246,.3),transparent 50%,rgba(59,130,246,.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(59,130,246,.1)}.stat-card{transition:all .5s cubic-bezier(.25,.1,.25,1)}
+table{border-collapse:separate;border-spacing:0}th,td{border:1px solid rgba(255,255,255,.08)}
+.section-divider{height:1px;background:linear-gradient(to right,transparent,rgba(59,130,246,.3),transparent)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0a0a0a}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+.callout-box{border-left:3px solid #3b82f6;background:rgba(59,130,246,.05);padding:20px 24px;border-radius:0 12px 12px 0}
+.warning-box{border-left:3px solid #f59e0b;background:rgba(245,158,11,.05);padding:20px 24px;border-radius:0 12px 12px 0}
+.success-box{border-left:3px solid #22c55e;background:rgba(34,197,94,.05);padding:20px 24px;border-radius:0 12px 12px 0}
+.process-line{position:relative}.process-line::after{content:'';position:absolute;left:24px;top:60px;bottom:-20px;width:2px;background:linear-gradient(to bottom,#3b82f6,transparent)}.process-line:last-child::after{display:none}
+.toc-link{transition:all .3s}.toc-link:hover{color:#3b82f6;padding-left:8px}
+@keyframes btn-pulse{0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.4)}50%{box-shadow:0 0 0 8px rgba(59,130,246,0)}}.btn-pulse{animation:btn-pulse 2.5s ease-in-out infinite}
+@keyframes btn-pulse-orange{0%,100%{box-shadow:0 0 0 0 rgba(249,115,22,.4)}50%{box-shadow:0 0 0 8px rgba(249,115,22,0)}}.btn-pulse-orange{animation:btn-pulse-orange 2.5s ease-in-out infinite}
+.team-img{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:center top}
+@media print{@page{size:A4;margin:15mm 12mm 20mm 12mm}html{background:#fff!important;scroll-behavior:auto}body{background:#fff!important;color:#111!important;font-size:10pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}nav,#back-to-top,.btn-pulse,.btn-pulse-orange,#mobile-menu,#mobile-menu-btn,.scroll-indicator,.pptx-toast{display:none!important}section{padding:18pt 0!important;page-break-inside:avoid}.section-divider{display:none!important}.glass,.glass-strong{background:#f8f9fa!important;backdrop-filter:none!important;border:1px solid #dee2e6!important}.gradient-border::before{display:none!important}h1,h2,h3,h4,p,li,td,th,span{color:#111!important;-webkit-text-fill-color:#111!important}h2{font-size:16pt!important;border-bottom:1px solid #dee2e6;padding-bottom:6pt}.shimmer-text{background:none!important;-webkit-text-fill-color:#111!important;animation:none!important}.animate-float,.animate-spin-slow,.pulse-glow,.btn-pulse,.btn-pulse-orange,.animate-fade-up{animation:none!important;opacity:1!important;transform:none!important}.callout-box{background:#eff6ff!important;border-left:3px solid #3b82f6!important}.warning-box{background:#fffbeb!important;border-left:3px solid #f59e0b!important}.success-box{background:#f0fdf4!important;border-left:3px solid #22c55e!important}table{border-color:#dee2e6!important}th{background:#f1f3f5!important}td,th{border-color:#dee2e6!important;color:#111!important}tr:nth-child(even) td{background:#f8f9fa!important}.text-neutral-400,.text-neutral-500,.text-neutral-600{color:#444!important;-webkit-text-fill-color:#444!important}.text-blue-400,.text-green-400,.text-purple-400,.text-amber-400,.text-red-400,.text-cyan-400{color:#2563eb!important;-webkit-text-fill-color:#2563eb!important}.text-green-300\/70,.text-blue-300\/80,.text-amber-300\/80{color:#166534!important;-webkit-text-fill-color:#166534!important}a{color:#2563eb!important}img{max-width:120pt!important}.team-img{max-width:80pt!important;max-height:80pt!important}footer{border-top:1px solid #dee2e6!important}}
+</style>
+<script>tailwind.config={theme:{extend:{colors:{brand:{500:'#3b82f6',600:'#2563eb'}}}}}</script>
+</head>
+<body class="antialiased">
+
+<!-- ===== NAV ===== -->
+<nav class="fixed top-0 left-0 right-0 z-50 h-16 bg-[#050505]/80 backdrop-blur-xl border-b border-white/5">
+<div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img src="https://z-cdn-media.chatglm.cn/files/bc9d79ae-f154-4c26-9d00-df56e9b51a4c.jpg?auth_key=1882204501-9b41980fa4f84d29bccac7788ec99408-0-29617c0ef99ed62e8c73f52df32c7edb" alt="HC" class="w-9 h-9 rounded-full object-cover">
+<span class="text-sm font-medium tracking-tight">Humanity Coin</span>
+<span class="text-[10px] font-mono text-neutral-500 bg-neutral-800/50 px-2 py-0.5 rounded-full ml-1 hidden sm:inline">WHITEPAPER v2.1</span>
+</div>
+<div class="hidden md:flex items-center gap-4 text-xs text-neutral-400">
+<a href="#executive" class="hover:text-white transition-colors">Summary</a>
+<a href="#model" class="hover:text-white transition-colors">Entry</a>
+<a href="#ngo" class="hover:text-white transition-colors">NGO</a>
+<a href="#tokenomics" class="hover:text-white transition-colors">Tokenomics</a>
+<a href="#growth" class="hover:text-white transition-colors">Growth</a>
+<a href="#team" class="hover:text-white transition-colors">Team</a>
+<a href="#roadmap" class="hover:text-white transition-colors">Roadmap</a>
+<button onclick="downloadPPTX()" class="btn-pulse-orange inline-flex items-center gap-1.5 h-8 px-4 bg-orange-500 text-white text-xs font-medium rounded-full hover:bg-orange-600 transition-colors">
+<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+PPTX
+</button>
+<button onclick="downloadPDF()" class="btn-pulse inline-flex items-center gap-1.5 h-8 px-4 bg-blue-500 text-white text-xs font-medium rounded-full hover:bg-blue-600 transition-colors"><i data-lucide="download" class="w-3.5 h-3.5"></i>PDF</button>
+</div>
+<button id="mobile-menu-btn" class="md:hidden text-neutral-400 hover:text-white transition-colors"><i data-lucide="menu" class="w-5 h-5"></i></button>
+</div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed inset-0 z-40 bg-[#050505]/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-5">
+<a href="#executive" class="text-lg text-neutral-300 hover:text-white transition-colors mobile-link">Summary</a>
+<a href="#model" class="text-lg text-neutral-300 hover:text-white transition-colors mobile-link">Entry Model</a>
+<a href="#ngo" class="text-lg text-neutral-300 hover:text-white transition-colors mobile-link">NGO Framework</a>
+<a href="#tokenomics" class="text-lg text-neutral-300 hover:text-white transition-colors mobile-link">Tokenomics</a>
+<a href="#growth" class="text-lg text-neutral-300 hover:text-white transition-colors mobile-link">Growth</a>
+<a href="#team" class="text-lg text-neutral-300 hover:text-white transition-colors mobile-link">Team</a>
+<a href="#roadmap" class="text-lg text-neutral-300 hover:text-white transition-colors mobile-link">Roadmap</a>
+<button onclick="downloadPPTX()" class="mt-4 inline-flex items-center gap-2 h-12 px-8 bg-orange-500 text-white text-sm font-medium rounded-full hover:bg-orange-600 transition-colors mobile-link">
+<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+Download PowerPoint
+</button>
+<button onclick="downloadPDF()" class="inline-flex items-center gap-2 h-12 px-8 bg-blue-500 text-white text-sm font-medium rounded-full hover:bg-blue-600 transition-colors mobile-link"><i data-lucide="download" class="w-4 h-4"></i>Download PDF</button>
+<button id="mobile-menu-close" class="absolute top-5 right-6 text-neutral-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+<div class="absolute inset-0" style="background:radial-gradient(circle at 50% 30%,rgba(59,130,246,.08) 0%,transparent 60%)"></div>
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-400/5 rounded-full blur-3xl"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/[0.02] rounded-full animate-spin-slow"></div>
+<div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+<div class="animate-fade-up mb-8"><div class="inline-block animate-float"><img src="https://z-cdn-media.chatglm.cn/files/bc9d79ae-f154-4c26-9d00-df56e9b51a4c.jpg?auth_key=1882204501-9b41980fa4f84d29bccac7788ec99408-0-29617c0ef99ed62e8c73f52df32c7edb" alt="Logo" class="w-36 h-36 md:w-44 md:h-44 rounded-full object-cover mx-auto pulse-glow"></div></div>
+<div class="animate-fade-up delay-100 mb-6"><span class="inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-full"><span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>Official Whitepaper — June 2026</span></div>
+<h1 class="animate-fade-up delay-200 text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight leading-[0.9] mb-6"><span class="shimmer-text">Humanity Coin</span></h1>
+<p class="animate-fade-up delay-300 text-lg md:text-xl text-neutral-400 font-light max-w-2xl mx-auto mb-4 leading-relaxed">$HC — Join for <span class="text-white font-medium">$6</span> · Secure <span class="text-white font-medium">$1,000</span> Value</p>
+<p class="animate-fade-up delay-400 text-base md:text-lg text-neutral-500 font-light max-w-3xl mx-auto mb-10 leading-relaxed">The NGO-Centric Ecosystem: Transforming Decentralized Trading into Global Aid</p>
+<div class="animate-fade-up delay-500 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-12">
+<div class="glass rounded-2xl p-4"><p class="text-2xl md:text-3xl font-medium text-white">1B</p><p class="text-[11px] text-neutral-500 mt-1 uppercase tracking-wider">Total Supply</p></div>
+<div class="glass rounded-2xl p-4"><p class="text-2xl md:text-3xl font-medium text-white">10%</p><p class="text-[11px] text-neutral-500 mt-1 uppercase tracking-wider">Tx Tax</p></div>
+<div class="glass rounded-2xl p-4"><p class="text-2xl md:text-3xl font-medium text-white">BSC</p><p class="text-[11px] text-neutral-500 mt-1 uppercase tracking-wider">Network</p></div>
+<div class="glass rounded-2xl p-4"><p class="text-2xl md:text-3xl font-medium text-white">$4M</p><p class="text-[11px] text-neutral-500 mt-1 uppercase tracking-wider">Seed Raised</p></div>
+</div>
+<div class="animate-fade-up delay-600 flex flex-col sm:flex-row gap-4 justify-center">
+<a href="#executive" class="inline-flex items-center justify-center gap-2 h-12 px-8 bg-white text-black text-sm font-medium rounded-full hover:bg-neutral-200 transition-colors">Read Whitepaper <i data-lucide="arrow-down" class="w-4 h-4"></i></a>
+<button onclick="downloadPPTX()" class="btn-pulse-orange inline-flex items-center justify-center gap-2 h-12 px-8 bg-orange-500 text-white text-sm font-medium rounded-full hover:bg-orange-600 transition-colors"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Download PowerPoint</button>
+<button onclick="downloadPDF()" class="btn-pulse inline-flex items-center justify-center gap-2 h-12 px-8 bg-blue-500 text-white text-sm font-medium rounded-full hover:bg-blue-600 transition-colors"><i data-lucide="download" class="w-4 h-4"></i>Download PDF</button>
+</div>
+<div class="animate-fade-up delay-700 mt-16 scroll-indicator"><div class="flex flex-col items-center gap-2 text-neutral-600"><span class="text-[10px] uppercase tracking-widest">Scroll to explore</span><i data-lucide="chevron-down" class="w-4 h-4 animate-bounce"></i></div></div>
+</div>
+</section>
+
+<!-- ===== S1: EXECUTIVE SUMMARY ===== -->
+<section id="executive" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 001</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-6">Executive Summary</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-8 text-lg">Humanity Coin ($HC) is a revolutionary bridge between decentralized finance speculation and humanitarian need. Built on the Binance Smart Chain (BSC), we have systematically removed the barriers to both impact and entry — creating a self-sustaining ecosystem where every transaction directly fuels vetted non-governmental organizations (NGOs) around the world.</p>
+<div class="callout-box mb-8"><p class="text-sm text-neutral-300 font-medium mb-1">The Humanity Mission</p><p class="text-neutral-400 text-sm leading-relaxed">Every trade fuels a vetted NGO. Trading is no longer just for profit; it's for purpose. We believe that the $2.5 trillion daily global trading volume, if even fractionally redirected, could solve the most pressing humanitarian crises of our generation — from clean water access to emergency medical aid, from education infrastructure to disaster relief.</p></div>
+<p class="text-neutral-400 font-light leading-relaxed mb-8">The decentralized finance landscape has grown exponentially, yet the vast majority of this wealth generation remains entirely insulated from real-world impact. Humanity Coin disrupts this paradigm by embedding a perpetual aid mechanism directly into the token's transactional architecture. Unlike traditional charity models that rely on voluntary donations and periodic fundraising campaigns, $HC creates an automated, transparent, and continuous flow of resources to organizations doing critical work on the ground.</p>
+<p class="text-neutral-400 font-light leading-relaxed mb-8">Our approach is three-pronged: <span class="text-white">(1)</span> A frictionless $6 claim entry model that democratizes access to high-value token allocations; <span class="text-white">(2)</span> A 10% transaction tax engine that automatically routes 3% of every single trade to the Humanity Vault; and <span class="text-white">(3)</span> A DAO-governed disbursement protocol that ensures community oversight and rigorous impact verification.</p>
+<p class="text-neutral-400 font-light leading-relaxed mb-12">With $4 million in seed funding already secured, three initial NGO partners fully vetted, and a mini-app beta generating significant early traction, Humanity Coin is positioned to become the definitive standard for impact-driven decentralized finance. This whitepaper details every aspect of our protocol — from tokenomics and vesting schedules to our proprietary Proof of Impact Protocol and long-term sustainability model.</p>
+<div class="grid md:grid-cols-3 gap-6">
+<div class="stat-card glass rounded-2xl p-6 gradient-border"><div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4"><i data-lucide="globe" class="w-5 h-5 text-blue-400"></i></div><p class="text-3xl font-medium mb-1">47+</p><p class="text-sm text-neutral-500">Countries Targeted for NGO Partnerships in Phase 1</p></div>
+<div class="stat-card glass rounded-2xl p-6 gradient-border"><div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center mb-4"><i data-lucide="shield-check" class="w-5 h-5 text-green-400"></i></div><p class="text-3xl font-medium mb-1">100%</p><p class="text-sm text-neutral-500">On-Chain Transparency for All Vault Disbursements</p></div>
+<div class="stat-card glass rounded-2xl p-6 gradient-border"><div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4"><i data-lucide="repeat" class="w-5 h-5 text-purple-400"></i></div><p class="text-3xl font-medium mb-1">Perpetual</p><p class="text-sm text-neutral-500">Aid Model — Not One-Time, Continuous Funding</p></div>
+</div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S2: PROBLEM STATEMENT ===== -->
+<section id="problem" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 002</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-12">The Problem Statement</h2>
+<div class="space-y-8">
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-start gap-4"><div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="trending-up" class="w-6 h-6 text-red-400"></i></div><div><h3 class="text-lg font-medium mb-3">DeFi Wealth Remains Disconnected from Real-World Impact</h3><p class="text-neutral-400 font-light leading-relaxed mb-4">The total value locked (TVL) in DeFi protocols has surpassed $100 billion at peak, yet less than 0.01% of this wealth has been systematically directed toward humanitarian causes. The crypto narrative has been dominated by speculation, yield farming, and meme coins — creating enormous wealth for early participants while the communities most in need remain entirely unaffected. This disconnect represents not just a missed opportunity, but a moral failure of the ecosystem.</p><p class="text-neutral-500 font-light text-sm leading-relaxed">According to the UN Office for the Coordination of Humanitarian Affairs (OCHA), global humanitarian funding requirements exceeded $55 billion in 2025, with a funding gap of approximately $22 billion. Meanwhile, cryptocurrency market capitalization exceeded $3 trillion. The math is undeniable — even a fractional reallocation could close the humanitarian funding gap entirely.</p></div></div></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-start gap-4"><div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="eye-off" class="w-6 h-6 text-amber-400"></i></div><div><h3 class="text-lg font-medium mb-3">Traditional Charity is Broken by Design</h3><p class="text-neutral-400 font-light leading-relaxed mb-4">The traditional charitable giving model suffers from four fundamental flaws that have persisted for decades: <span class="text-white">Opacity</span> — donors rarely know exactly how their money is spent, with administrative overhead often consuming 20-40% of funds; <span class="text-white">Intermittency</span> — giving is event-driven (natural disasters, holiday seasons) rather than continuous, creating feast-or-famine cycles for NGOs; <span class="text-white">Friction</span> — the process of donating is cumbersome, requiring multiple steps and often involving credit card fees that further erode the intended impact; and <span class="text-white">Verification Gap</span> — there is no standardized, immutable proof that funds were used for their stated purpose.</p><p class="text-neutral-500 font-light text-sm leading-relaxed">A 2024 study by the Charity Navigator Foundation found that only 23% of donors felt "very confident" that their donations were used effectively. This trust deficit directly suppresses giving — potential donors hold back precisely because they cannot verify impact.</p></div></div></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-start gap-4"><div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="lock" class="w-6 h-6 text-blue-400"></i></div><div><h3 class="text-lg font-medium mb-3">High Barriers to Entry Exclude the Many</h3><p class="text-neutral-400 font-light leading-relaxed mb-4">Early-stage token opportunities in DeFi are overwhelmingly captured by venture capital firms, insider networks, and individuals with significant capital and technical expertise. The average person in a developing nation — the very demographic that humanitarian aid is designed to serve — has virtually zero access to these wealth-generation mechanisms. This creates a perverse irony: the people who need financial empowerment most are the least able to access it.</p><p class="text-neutral-500 font-light text-sm leading-relaxed">Humanity Coin's $6 entry fee is deliberately calibrated to be accessible across global income levels. At $6, the barrier is low enough for participation in over 90% of global markets while still providing meaningful commitment filtering to prevent sybil attacks and bot exploitation.</p></div></div></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-start gap-4"><div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="zap-off" class="w-6 h-6 text-purple-400"></i></div><div><h3 class="text-lg font-medium mb-3">Crypto Volatility Destroys NGO Planning Ability</h3><p class="text-neutral-400 font-light leading-relaxed">When NGOs do receive cryptocurrency donations (which is rare), they face a critical problem: volatility. An NGO that receives $50,000 in a volatile token may find its purchasing power reduced to $35,000 within days, making budgeting for long-term projects impossible. Humanity Coin solves this through its Stable Payout mechanism — all vault disbursements are instantly converted to stablecoins (USDT/USDC) before reaching NGO wallets, ensuring that the full intended value is preserved.</p></div></div></div>
+</div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S3: CLAIM ENTRY MODEL ===== -->
+<section id="model" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 003</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-4">The Claim Entry Model</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-12 max-w-3xl">The Claim Entry Model is Humanity Coin's innovative approach to democratizing early-stage token access. Unlike traditional presales, IDOs, or ICOs — which favor the wealthy and well-connected — our model ensures that anyone, anywhere, can participate with minimal friction while maintaining robust security against exploitation.</p>
+<div class="space-y-0 mb-16">
+<div class="process-line flex gap-6 md:gap-10 pb-12"><div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center"><span class="text-blue-400 font-medium text-sm">1</span></div><div class="glass rounded-2xl p-6 md:p-8 flex-1 gradient-border"><div class="flex items-center gap-3 mb-3"><i data-lucide="user-plus" class="w-5 h-5 text-blue-400"></i><h3 class="text-lg font-medium">Join the Ecosystem</h3></div><p class="text-neutral-400 font-light leading-relaxed mb-4">Users access the Humanity Coin claim interface through our web application or integrated partner platforms. The onboarding process has been meticulously designed to require fewer than 60 seconds from start to finish. Users connect a compatible Web3 wallet (MetaMask, Trust Wallet, WalletConnect, or our native built-in wallet) and complete a basic identity verification tier that prevents mass bot registration while preserving privacy.</p><div class="warning-box"><p class="text-xs text-amber-300/80 font-medium mb-1">Anti-Sybil Protection</p><p class="text-xs text-neutral-500 leading-relaxed">Each claim is tied to a unique wallet address combined with device fingerprinting and IP range analysis. Duplicate claims from the same identity cluster are automatically flagged and rejected by our middleware layer before reaching the smart contract.</p></div></div></div>
+<div class="process-line flex gap-6 md:gap-10 pb-12"><div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center"><span class="text-blue-400 font-medium text-sm">2</span></div><div class="glass rounded-2xl p-6 md:p-8 flex-1 gradient-border"><div class="flex items-center gap-3 mb-3"><i data-lucide="coins" class="w-5 h-5 text-blue-400"></i><h3 class="text-lg font-medium">Pay the $6 Nominal Entry Fee</h3></div><p class="text-neutral-400 font-light leading-relaxed mb-4">A one-time, non-refundable entry fee of <span class="text-white font-medium">$6</span> (payable in BNB or USDT) grants the user access to a fixed-price token allocation valued at <span class="text-white font-medium">$1,000</span>. This fee serves multiple critical functions: it provides a commitment signal that filters out casual browsers and bots; it generates initial liquidity that is added directly to the DEX pool; and it creates a psychological anchoring effect that increases long-term holder retention rates.</p><div class="success-box"><p class="text-xs text-green-300/80 font-medium mb-1">Economic Rationale</p><p class="text-xs text-neutral-500 leading-relaxed">The $6 fee was determined through extensive modeling across 140+ global markets. At this price point, participation is accessible to individuals earning as little as $2/day (representing 3 days' wages), while still generating sufficient aggregate capital to seed liquidity. Our simulations project 500,000+ claims in the first 90 days, yielding $3M+ in initial liquidity provisioning.</p></div></div></div>
+<div class="process-line flex gap-6 md:gap-10 pb-12"><div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center"><span class="text-blue-400 font-medium text-sm">3</span></div><div class="glass rounded-2xl p-6 md:p-8 flex-1 gradient-border"><div class="flex items-center gap-3 mb-3"><i data-lucide="gift" class="w-5 h-5 text-blue-400"></i><h3 class="text-lg font-medium">Claim $1,000 Fixed-Price Allocation</h3></div><p class="text-neutral-400 font-light leading-relaxed mb-4">Upon successful payment, the user's wallet is credited with a $1,000 valued allocation of $HC tokens at the fixed claim price. This allocation is not immediately transferable — it enters a structured vesting period (see Step 4) designed to prevent dump dynamics, protect market price stability, and align user incentives with the long-term health of the ecosystem. The fixed-price mechanism ensures that every participant, regardless of when they claim during the public window, receives identical terms.</p><div class="callout-box"><p class="text-xs text-blue-300/80 font-medium mb-1">Fair Launch Guarantee</p><p class="text-xs text-neutral-500 leading-relaxed">Unlike tiered presale models that allocate more tokens to larger contributors, Humanity Coin's claim model is deliberately egalitarian. Every wallet receives the same $1,000 allocation at the same fixed price, with no VIP tiers, no priority queues, and no insider preferential pricing.</p></div></div></div>
+<div class="process-line flex gap-6 md:gap-10"><div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center"><span class="text-blue-400 font-medium text-sm">4</span></div><div class="glass rounded-2xl p-6 md:p-8 flex-1 gradient-border"><div class="flex items-center gap-3 mb-3"><i data-lucide="clock" class="w-5 h-5 text-blue-400"></i><h3 class="text-lg font-medium">90-Day Linear Vesting Period</h3></div><p class="text-neutral-400 font-light leading-relaxed mb-4">The claimed allocation vests over a 90-day linear schedule, releasing approximately 1/90th of the total allocation daily. This mechanism is critical for several reasons: it prevents a massive sell pressure event on Day 1 (which would crash the price and harm all participants); it creates a natural holding incentive where the best financial outcome comes from remaining engaged with the ecosystem; and it allows the DEX liquidity pool to mature organically as trading volume builds gradually.</p><p class="text-neutral-500 font-light text-sm leading-relaxed">During the vesting period, users still earn 4% reflection rewards on their fully vested balance, meaning even locked tokens generate passive yield. Additionally, referral rewards ($HC from successful referrals) are <span class="text-white">not subject to vesting</span> — they are instantly available, creating a powerful incentive to share the project during the vesting window.</p></div></div>
+</div>
+<div class="glass rounded-3xl p-8 md:p-10 gradient-border"><h3 class="text-lg font-medium mb-6 text-center">The Claim Entry Model — Flow Overview</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-4"><div class="text-center p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mx-auto mb-3"><i data-lucide="smartphone" class="w-6 h-6 text-blue-400"></i></div><p class="text-sm font-medium mb-1">Connect</p><p class="text-[11px] text-neutral-500">Wallet + Verify</p></div><div class="text-center p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mx-auto mb-3"><i data-lucide="dollar-sign" class="w-6 h-6 text-green-400"></i></div><p class="text-sm font-medium mb-1">Pay $6</p><p class="text-[11px] text-neutral-500">BNB or USDT</p></div><div class="text-center p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center mx-auto mb-3"><i data-lucide="package" class="w-6 h-6 text-purple-400"></i></div><p class="text-sm font-medium mb-1">Claim $1,000</p><p class="text-[11px] text-neutral-500">Fixed Price $HC</p></div><div class="text-center p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center mx-auto mb-3"><i data-lucide="timer" class="w-6 h-6 text-amber-400"></i></div><p class="text-sm font-medium mb-1">Vest 90 Days</p><p class="text-[11px] text-neutral-500">Linear Unlock</p></div></div></div>
+</div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S4: NGO NARRATIVE ===== -->
+<section id="ngo" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 004</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-4">Changing the NGO Narrative</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-12 max-w-3xl">Traditional charity is intermittent and opaque. Humanity Coin introduces the <span class="text-white font-medium">"Perpetual Aid"</span> model — a systemic transformation in how humanitarian organizations receive, verify, and deploy funding. <strong>Transparency: 100% On-Chain</strong> | <strong>Approval: Community Voted (DAO)</strong></p>
+<div class="glass rounded-3xl overflow-hidden mb-12 gradient-border">
+<div class="p-6 md:p-8 border-b border-white/5"><h3 class="text-lg font-medium mb-1">Traditional Charity vs. Perpetual Aid Model</h3><p class="text-sm text-neutral-500">A side-by-side comparison of paradigms</p></div>
+<div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="bg-white/[0.02]"><th class="text-left p-4 md:p-6 font-medium text-neutral-300 text-xs uppercase tracking-wider">Dimension</th><th class="text-left p-4 md:p-6 font-medium text-red-400/80 text-xs uppercase tracking-wider">Traditional Charity</th><th class="text-left p-4 md:p-6 font-medium text-green-400/80 text-xs uppercase tracking-wider">Perpetual Aid ($HC)</th></tr></thead>
+<tbody class="text-neutral-400 font-light">
+<tr class="border-t border-white/5"><td class="p-4 md:p-6 text-white font-normal">Funding Flow</td><td class="p-4 md:p-6">Intermittent, event-driven</td><td class="p-4 md:p-6 text-green-300/70">Continuous, automated per transaction</td></tr>
+<tr class="border-t border-white/5 bg-white/[0.01]"><td class="p-4 md:p-6 text-white font-normal">Transparency</td><td class="p-4 md:p-6">Annual reports, opaque ledgers</td><td class="p-4 md:p-6 text-green-300/70">100% on-chain, real-time, immutable</td></tr>
+<tr class="border-t border-white/5"><td class="p-4 md:p-6 text-white font-normal">Approval</td><td class="p-4 md:p-6">Internal board decisions</td><td class="p-4 md:p-6 text-green-300/70">Community voted (DAO governance)</td></tr>
+<tr class="border-t border-white/5 bg-white/[0.01]"><td class="p-4 md:p-6 text-white font-normal">Verification</td><td class="p-4 md:p-6">Self-reported, infrequent audits</td><td class="p-4 md:p-6 text-green-300/70">On-chain proof (receipts, photos, geo-data)</td></tr>
+<tr class="border-t border-white/5"><td class="p-4 md:p-6 text-white font-normal">Volatility Exposure</td><td class="p-4 md:p-6">N/A (fiat only)</td><td class="p-4 md:p-6 text-green-300/70">Zero — instant stablecoin conversion</td></tr>
+<tr class="border-t border-white/5 bg-white/[0.01]"><td class="p-4 md:p-6 text-white font-normal">Overhead Cost</td><td class="p-4 md:p-6">20-40% administrative</td><td class="p-4 md:p-6 text-green-300/70">&lt;2% (smart contract automation)</td></tr>
+<tr class="border-t border-white/5"><td class="p-4 md:p-6 text-white font-normal">Donor Engagement</td><td class="p-4 md:p-6">Passive, one-directional</td><td class="p-4 md:p-6 text-green-300/70">Active, voting rights, impact dashboard</td></tr>
+<tr class="border-t border-white/5 bg-white/[0.01]"><td class="p-4 md:p-6 text-white font-normal">Global Access</td><td class="p-4 md:p-6">Limited by banking infrastructure</td><td class="p-4 md:p-6 text-green-300/70">Borderless, any wallet, any country</td></tr>
+</tbody></table></div></div>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="glass rounded-2xl p-8 gradient-border"><div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4"><i data-lucide="scan-eye" class="w-5 h-5 text-blue-400"></i></div><h3 class="text-lg font-medium mb-3">Transparency: 100% On-Chain</h3><p class="text-neutral-400 font-light text-sm leading-relaxed">Every single transaction, from the moment a user's trade generates tax revenue to the moment an NGO receives stablecoins, is recorded immutably on the Binance Smart Chain. Anyone, anywhere, can audit the complete flow of funds using publicly available block explorers. There are no hidden fees, no intermediary skimming, and no "administrative costs" that vanish into opaque budgets. The blockchain is the auditor, and it never sleeps.</p></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center mb-4"><i data-lucide="vote" class="w-5 h-5 text-green-400"></i></div><h3 class="text-lg font-medium mb-3">Approval: Community Voted (DAO)</h3><p class="text-neutral-400 font-light text-sm leading-relaxed">NGO funding requests are not approved by an internal board or a small committee. They are presented to the entire $HC holder community through our DAO governance portal. Every token holder has voting power proportional to their holdings, ensuring that the community collectively decides which causes receive funding, how much, and when. This democratic approach eliminates favoritism and ensures alignment with holder values.</p></div>
+</div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S5: PROOF OF IMPACT ===== -->
+<section id="impact" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 005</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-4">The Proof of Impact Protocol</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-12 max-w-3xl">The Proof of Impact Protocol (PoIP) is Humanity Coin's proprietary three-step verification system that ensures every dollar distributed from the Humanity Vault creates verifiable, documented real-world impact. This is not aspirational — it is mechanical and enforced at the smart contract level.</p>
+<div class="space-y-6 mb-12">
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center"><i data-lucide="file-text" class="w-6 h-6 text-blue-400"></i></div><div><p class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Step 1 of 3</p><h3 class="text-lg font-medium">Aid Portal — Vetted NGO Funding Requests</h3></div></div><p class="text-neutral-400 font-light leading-relaxed mb-4">Only NGOs that have passed our rigorous due diligence process (see Section 10: Security & Compliance) can submit funding requests through the Aid Portal. Each request must include: a detailed project description with measurable outcomes; a line-item budget breakdown showing exactly how funds will be used; a timeline with specific milestones; and the target beneficiary count. The portal automatically formats these requests into standardized governance proposals that the DAO community can evaluate and vote on.</p><p class="text-neutral-500 font-light text-sm leading-relaxed"><span class="text-white">Example:</span> "WaterAid Kenya requests $45,000 from the Humanity Vault to construct 3 borehole wells in Turkana County, serving approximately 4,500 people. Project duration: 90 days. Milestones: Site survey (Day 15), Drilling complete (Day 45), Pump installation and testing (Day 75), Community handover (Day 90)."</p></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center"><i data-lucide="camera" class="w-6 h-6 text-green-400"></i></div><div><p class="text-[10px] font-mono text-green-400 uppercase tracking-wider">Step 2 of 3</p><h3 class="text-lg font-medium">Impact Verification — On-Chain Evidence</h3></div></div><p class="text-neutral-400 font-light leading-relaxed mb-4">Upon receiving funds, NGOs are contractually required to upload verification evidence to the blockchain at each milestone. This evidence includes: photographic documentation with embedded EXIF GPS data and timestamps; digital receipts for all expenditures; third-party verification from local community leaders or independent auditors; and beneficiary count confirmation. All evidence is stored on-chain via IPFS integration, making it permanently accessible, tamper-proof, and publicly auditable.</p><p class="text-neutral-500 font-light text-sm leading-relaxed">NGOs that fail to provide verification evidence within the specified milestone windows are automatically flagged by the protocol. Repeated failures trigger a DAO vote for potential delisting, which would permanently remove the NGO's ability to request future funding from the Humanity Vault.</p></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center"><i data-lucide="badge-dollar-sign" class="w-6 h-6 text-amber-400"></i></div><div><p class="text-[10px] font-mono text-amber-400 uppercase tracking-wider">Step 3 of 3</p><h3 class="text-lg font-medium">Stable Payouts — Zero Volatility for NGOs</h3></div></div><p class="text-neutral-400 font-light leading-relaxed">When the DAO approves a funding disbursement, the $HC tokens in the Humanity Vault are not sent directly to the NGO. Instead, they are automatically routed through our integrated DEX aggregator and converted to USDT or USDC at the best available market rate. Only the stablecoin output reaches the NGO's wallet. This eliminates the volatility risk that has historically made cryptocurrency donations impractical for organizations that need predictable budgets. An NGO approved for $50,000 in funding receives exactly $50,000 in stablecoins — not a penny less due to market fluctuations.</p></div>
+</div>
+<div class="glass rounded-3xl p-8 gradient-border"><h3 class="text-center text-lg font-medium mb-8">Proof of Impact Protocol — Data Flow</h3>
+<div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-2 text-center">
+<div class="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 min-w-[110px]"><i data-lucide="repeat" class="w-5 h-5 text-blue-400 mx-auto mb-2"></i><p class="text-xs font-medium">Holder Trades</p><p class="text-[10px] text-neutral-500">3% tax collected</p></div>
+<i data-lucide="arrow-right" class="w-5 h-5 text-neutral-600 hidden md:block"></i><i data-lucide="arrow-down" class="w-5 h-5 text-neutral-600 md:hidden"></i>
+<div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 min-w-[110px]"><i data-lucide="landmark" class="w-5 h-5 text-purple-400 mx-auto mb-2"></i><p class="text-xs font-medium">Humanity Vault</p><p class="text-[10px] text-neutral-500">$HC accumulated</p></div>
+<i data-lucide="arrow-right" class="w-5 h-5 text-neutral-600 hidden md:block"></i><i data-lucide="arrow-down" class="w-5 h-5 text-neutral-600 md:hidden"></i>
+<div class="p-4 rounded-xl bg-green-500/10 border border-green-500/20 min-w-[110px]"><i data-lucide="vote" class="w-5 h-5 text-green-400 mx-auto mb-2"></i><p class="text-xs font-medium">DAO Vote</p><p class="text-[10px] text-neutral-500">Community approves</p></div>
+<i data-lucide="arrow-right" class="w-5 h-5 text-neutral-600 hidden md:block"></i><i data-lucide="arrow-down" class="w-5 h-5 text-neutral-600 md:hidden"></i>
+<div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 min-w-[110px]"><i data-lucide="arrow-left-right" class="w-5 h-5 text-amber-400 mx-auto mb-2"></i><p class="text-xs font-medium">Stable Convert</p><p class="text-[10px] text-neutral-500">$HC → USDT/USDC</p></div>
+<i data-lucide="arrow-right" class="w-5 h-5 text-neutral-600 hidden md:block"></i><i data-lucide="arrow-down" class="w-5 h-5 text-neutral-600 md:hidden"></i>
+<div class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 min-w-[110px]"><i data-lucide="heart" class="w-5 h-5 text-red-400 mx-auto mb-2"></i><p class="text-xs font-medium">NGO Receives</p><p class="text-[10px] text-neutral-500">Stablecoins deployed</p></div>
+<i data-lucide="arrow-right" class="w-5 h-5 text-neutral-600 hidden md:block"></i><i data-lucide="arrow-down" class="w-5 h-5 text-neutral-600 md:hidden"></i>
+<div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 min-w-[110px]"><i data-lucide="check-circle" class="w-5 h-5 text-cyan-400 mx-auto mb-2"></i><p class="text-xs font-medium">Impact Proof</p><p class="text-[10px] text-neutral-500">On-chain evidence</p></div>
+</div></div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S6: VAULT ===== -->
+<section id="vault" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 006</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-12">The Humanity Vault Architecture</h2>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="glass rounded-2xl p-8 gradient-border"><h3 class="text-lg font-medium mb-4">Vault Security Layers</h3><ul class="space-y-3"><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">Timelock:</span> All disbursements are subject to a 48-hour timelock, giving the community time to review and potentially veto any suspicious transaction.</p></li><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">Multi-Sig:</span> The vault requires 3-of-5 signatories for any disbursement above $10,000, with signatories drawn from the core team, independent auditors, and community-elected delegates.</p></li><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">Daily Limits:</span> Maximum daily disbursement capped at 5% of total vault balance to prevent catastrophic drain scenarios.</p></li><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">Emergency Pause:</span> DAO can trigger a 72-hour vault freeze if suspicious activity is detected, requiring a supermajority (67%) vote to lift.</p></li><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">Audit Trail:</span> Every vault interaction (deposit, conversion, disbursement) emits detailed events that are indexed and displayed on our public Impact Dashboard.</p></li></ul></div>
+<div class="glass rounded-2xl p-8 gradient-border"><h3 class="text-lg font-medium mb-4">Projected Vault Accumulation</h3><p class="text-sm text-neutral-500 mb-4">Conservative estimates based on projected daily volume</p><div class="space-y-4"><div><div class="flex justify-between text-sm mb-1"><span class="text-neutral-400">Month 1</span><span class="text-white font-mono text-xs">$180,000</span></div><div class="w-full h-2 bg-neutral-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500/60 rounded-full" style="width:8%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span class="text-neutral-400">Month 3</span><span class="text-white font-mono text-xs">$890,000</span></div><div class="w-full h-2 bg-neutral-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500/60 rounded-full" style="width:22%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span class="text-neutral-400">Month 6</span><span class="text-white font-mono text-xs">$2,400,000</span></div><div class="w-full h-2 bg-neutral-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500/60 rounded-full" style="width:45%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span class="text-neutral-400">Month 12</span><span class="text-white font-mono text-xs">$5,800,000</span></div><div class="w-full h-2 bg-neutral-800 rounded-full overflow-hidden"><div class="h-full bg-green-500/60 rounded-full" style="width:72%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span class="text-neutral-400">Month 24</span><span class="text-white font-mono text-xs">$14,200,000</span></div><div class="w-full h-2 bg-neutral-800 rounded-full overflow-hidden"><div class="h-full bg-green-400/60 rounded-full" style="width:100%"></div></div></div></div><p class="text-[10px] text-neutral-600 mt-4">* Projections based on $2M daily volume at 3% vault allocation. Actual results may vary.</p></div>
+</div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S7: TOKENOMICS ===== -->
+<section id="tokenomics" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 007</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-4">Tokenomics & Vesting</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-12 max-w-3xl">The $HC token economy has been designed for long-term sustainability, fair distribution, and alignment of incentives across all stakeholders. Every allocation category has a specific purpose, vesting schedule, and role within the broader ecosystem.</p>
+<div class="glass rounded-3xl p-8 md:p-10 gradient-border mb-12">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8"><div><p class="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1">Total Fixed Supply</p><p class="text-4xl md:text-5xl font-medium tracking-tight">1,000,000,000 <span class="text-neutral-500 text-2xl">$HC</span></p></div><div class="mt-4 md:mt-0 text-right"><p class="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1">Token Standard</p><p class="text-lg font-medium">BEP-20 (BSC)</p></div></div>
+<div class="flex h-8 rounded-full overflow-hidden mb-8"><div class="bg-blue-500 h-full" style="width:20%"></div><div class="bg-cyan-500 h-full" style="width:20%"></div><div class="bg-green-500 h-full" style="width:15%"></div><div class="bg-purple-500 h-full" style="width:15%"></div><div class="bg-amber-500 h-full" style="width:30%"></div></div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10"><div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm bg-blue-500"></div><span class="text-xs text-neutral-400">Community 20%</span></div><div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm bg-cyan-500"></div><span class="text-xs text-neutral-400">Liquidity 20%</span></div><div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm bg-green-500"></div><span class="text-xs text-neutral-400">NGO Treasury 15%</span></div><div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm bg-purple-500"></div><span class="text-xs text-neutral-400">Private Seed 15%</span></div><div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm bg-amber-500"></div><span class="text-xs text-neutral-400">Team & Dev 30%</span></div></div></div>
+<div class="glass rounded-3xl overflow-hidden gradient-border">
+<div class="p-6 md:p-8 border-b border-white/5"><h3 class="text-lg font-medium">Detailed Allocation & Vesting Schedule</h3></div>
+<div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="bg-white/[0.02]"><th class="text-left p-4 md:p-5 font-medium text-neutral-300 text-xs uppercase tracking-wider">Category</th><th class="text-left p-4 md:p-5 font-medium text-neutral-300 text-xs uppercase tracking-wider">Allocation</th><th class="text-left p-4 md:p-5 font-medium text-neutral-300 text-xs uppercase tracking-wider">Tokens</th><th class="text-left p-4 md:p-5 font-medium text-neutral-300 text-xs uppercase tracking-wider">Vesting Details</th><th class="text-left p-4 md:p-5 font-medium text-neutral-300 text-xs uppercase tracking-wider">Purpose</th><th class="text-left p-4 md:p-5 font-medium text-neutral-300 text-xs uppercase tracking-wider">Status</th></tr></thead>
+<tbody class="text-neutral-400 font-light">
+<tr class="border-t border-white/5"><td class="p-4 md:p-5"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-blue-500"></div><span class="text-white font-normal">Community App</span></div></td><td class="p-4 md:p-5 font-mono text-xs">20%</td><td class="p-4 md:p-5 font-mono text-xs">200,000,000</td><td class="p-4 md:p-5 text-xs">90-day linear unlock inside the App. No cliff. Daily release proportional to claim activity.</td><td class="p-4 md:p-5 text-xs">Public claim allocations via the $6 entry model.</td><td class="p-4 md:p-5"><span class="text-[10px] font-medium text-green-400 bg-green-500/10 px-2 py-1 rounded-full">Active</span></td></tr>
+<tr class="border-t border-white/5 bg-white/[0.01]"><td class="p-4 md:p-5"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-cyan-500"></div><span class="text-white font-normal">Liquidity Pool</span></div></td><td class="p-4 md:p-5 font-mono text-xs">20%</td><td class="p-4 md:p-5 font-mono text-xs">200,000,000</td><td class="p-4 md:p-5 text-xs">Locked for 5 Years. Initial 50M paired with BNB at launch; remaining added quarterly as volume milestones are met.</td><td class="p-4 md:p-5 text-xs">DEX liquidity provisioning.</td><td class="p-4 md:p-5"><span class="text-[10px] font-medium text-amber-400 bg-amber-500/10 px-2 py-1 rounded-full">Locked</span></td></tr>
+<tr class="border-t border-white/5"><td class="p-4 md:p-5"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500"></div><span class="text-white font-normal">NGO Treasury</span></div></td><td class="p-4 md:p-5 font-mono text-xs">15%</td><td class="p-4 md:p-5 font-mono text-xs">150,000,000</td><td class="p-4 md:p-5 text-xs">Monthly release to Humanity Vault. Rate calibrated to match projected vault disbursement needs. DAO-adjustable.</td><td class="p-4 md:p-5 text-xs">Supplemental funding beyond transaction tax revenue.</td><td class="p-4 md:p-5"><span class="text-[10px] font-medium text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full">Aid Fuel</span></td></tr>
+<tr class="border-t border-white/5 bg-white/[0.01]"><td class="p-4 md:p-5"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-purple-500"></div><span class="text-white font-normal">Private Seed</span></div></td><td class="p-4 md:p-5 font-mono text-xs">15%</td><td class="p-4 md:p-5 font-mono text-xs">150,000,000</td><td class="p-4 md:p-5 text-xs">12-month cliff, followed by quarterly vesting over 24 months (8 quarters). No early unlock provisions.</td><td class="p-4 md:p-5 text-xs">Early institutional and strategic investor funding.</td><td class="p-4 md:p-5"><span class="text-[10px] font-medium text-purple-400 bg-purple-500/10 px-2 py-1 rounded-full">Invested</span></td></tr>
+<tr class="border-t border-white/5"><td class="p-4 md:p-5"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-amber-500"></div><span class="text-white font-normal">Team & Dev</span></div></td><td class="p-4 md:p-5 font-mono text-xs">30%</td><td class="p-4 md:p-5 font-mono text-xs">300,000,000</td><td class="p-4 md:p-5 text-xs">Scheduled release over 24 months. 6-month cliff, then monthly linear unlock. Tied to milestone achievement.</td><td class="p-4 md:p-5 text-xs">Core team compensation, smart contract development, ongoing protocol maintenance.</td><td class="p-4 md:p-5"><span class="text-[10px] font-medium text-neutral-400 bg-neutral-500/10 px-2 py-1 rounded-full">Future</span></td></tr>
+</tbody><tfoot><tr class="border-t border-white/10 bg-white/[0.02]"><td class="p-4 md:p-5 text-white font-medium">Total</td><td class="p-4 md:p-5 font-mono text-xs text-white font-medium">100%</td><td class="p-4 md:p-5 font-mono text-xs text-white font-medium">1,000,000,000</td><td class="p-4 md:p-5" colspan="3"></td></tr></tfoot></table></div></div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S8: TX ENGINE ===== -->
+<section id="tax" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 008</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-12">The 10% Transaction Engine</h2>
+<div class="grid md:grid-cols-3 gap-6 mb-12">
+<div class="stat-card glass rounded-2xl p-8 gradient-border text-center"><div class="w-20 h-20 rounded-full bg-blue-500/10 border-2 border-blue-500/20 flex items-center justify-center mx-auto mb-6"><span class="text-3xl font-medium text-blue-400">4%</span></div><h3 class="text-lg font-medium mb-3">Reflections to Holders</h3><p class="text-sm text-neutral-400 font-light leading-relaxed mb-4">Automatically redistributed to all existing $HC holders proportional to their balance. The more you hold, the more you earn — creating a powerful compounding effect that rewards long-term conviction.</p><div class="space-y-2 text-left"><div class="flex items-center gap-2 text-xs text-neutral-500"><i data-lucide="check" class="w-3 h-3 text-green-400"></i>Auto-staked in wallet</div><div class="flex items-center gap-2 text-xs text-neutral-500"><i data-lucide="check" class="w-3 h-3 text-green-400"></i>No claiming required</div><div class="flex items-center gap-2 text-xs text-neutral-500"><i data-lucide="check" class="w-3 h-3 text-green-400"></i>Compounds with each transaction</div></div></div>
+<div class="stat-card glass rounded-2xl p-8 gradient-border text-center"><div class="w-20 h-20 rounded-full bg-cyan-500/10 border-2 border-cyan-500/20 flex items-center justify-center mx-auto mb-6"><span class="text-3xl font-medium text-cyan-400">3%</span></div><h3 class="text-lg font-medium mb-3">Auto-Liquidity Stability</h3><p class="text-sm text-neutral-400 font-light leading-relaxed mb-4">Automatically added to the $HC/BNB liquidity pool on PancakeSwap, steadily growing the pool depth over time. This creates a permanent price floor and reduces slippage for all traders.</p><div class="space-y-2 text-left"><div class="flex items-center gap-2 text-xs text-neutral-500"><i data-lucide="check" class="w-3 h-3 text-green-400"></i>LP tokens permanently locked</div><div class="flex items-center gap-2 text-xs text-neutral-500"><i data-lucide="check" class="w-3 h-3 text-green-400"></i>Reduces price volatility</div><div class="flex items-center gap-2 text-xs text-neutral-500"><i data-lucide="check" class="w-3 h-3 text-green-400"></i>Growing pool over time</div></div></div>
+<div class="stat-card glass rounded-2xl p-8 gradient-border text-center"><div class="w-20 h-20 rounded-full bg-green-500/10 border-2 border-green-500/20 flex items-center justify-center mx-auto mb-6"><span class="text-3xl font-medium text-green-400">3%</span></div><h3 class="text-lg font-medium mb-3">NGO Humanity Vault</h3><p class="text-sm text-neutral-400 font-light leading-relaxed mb-4">Routed directly to the Humanity Vault smart contract. This is the lifeblood of the perpetual aid model — transforming every trade into a micro-donation that accumulates into meaningful funding.</p><div class="space-y-2 text-left"><div class="flex items-center gap-2 text-xs text-neutral-500"><i data-lucide="check" class="w-3 h-3 text-green-400"></i>DAO-governed disbursement</div><div class="flex items-center gap-2 text-xs text-neutral-500"><i data-lucide="check" class="w-3 h-3 text-green-400"></i>Converted to stablecoins</div><div class="flex items-center gap-2 text-xs text-neutral-500"><i data-lucide="check" class="w-3 h-3 text-green-400"></i>Proof of impact required</div></div></div>
+</div>
+<div class="warning-box"><p class="text-xs text-amber-300/80 font-medium mb-1">Important Note on Transaction Tax</p><p class="text-xs text-neutral-500 leading-relaxed">The 10% transaction tax applies to all on-chain transfers. However, transfers between recognized whitelisted addresses (e.g., between the claim contract and user wallets, or between vault sub-contracts) are exempt to prevent tax-on-tax compounding during internal protocol operations. The tax is applied once at the point of market-facing transactions (buys and sells on DEX).</p></div>
+</div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S9: GROWTH ===== -->
+<section id="growth" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 009</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-4">Viral Growth & Referrals</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-12 max-w-3xl">Mass adoption is not optional — it is the foundational requirement for the perpetual aid model to generate meaningful impact. To achieve this, Humanity Coin implements a referral incentive structure that transforms every user into a motivated evangelist.</p>
+<div class="glass rounded-3xl p-8 md:p-12 gradient-border mb-12 text-center relative overflow-hidden">
+<div class="absolute inset-0" style="background:radial-gradient(circle at 50% 0%,rgba(59,130,246,.08) 0%,transparent 60%)"></div>
+<div class="relative z-10">
+<div class="inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-full mb-6"><i data-lucide="rocket" class="w-3 h-3"></i>Referral Incentive Program</div>
+<h3 class="text-3xl md:text-5xl font-medium tracking-tight mb-4">INVITE 3 FRIENDS = <span class="text-blue-400">$300</span></h3>
+<p class="text-neutral-400 font-light leading-relaxed max-w-2xl mx-auto mb-8 text-lg">To ensure mass adoption, we reward active community builders. Every successful <span class="text-white font-medium">$6 claim</span> by a referred user adds <span class="text-white font-medium">$100 worth of $HC</span> to the referrer's wallet instantly.</p>
+<div class="grid grid-cols-3 gap-4 max-w-md mx-auto"><div class="p-4 rounded-xl bg-white/[0.03] border border-white/5"><p class="text-2xl font-medium text-blue-400">1</p><p class="text-[10px] text-neutral-500 mt-1">Referral</p><p class="text-xs text-white font-medium">$100</p></div><div class="p-4 rounded-xl bg-white/[0.03] border border-white/5"><p class="text-2xl font-medium text-blue-400">3</p><p class="text-[10px] text-neutral-500 mt-1">Referrals</p><p class="text-xs text-white font-medium">$300</p></div><div class="p-4 rounded-xl bg-white/[0.03] border border-white/5"><p class="text-2xl font-medium text-blue-400">10</p><p class="text-[10px] text-neutral-500 mt-1">Referrals</p><p class="text-xs text-white font-medium">$1,000</p></div></div></div></div>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="glass rounded-2xl p-8 gradient-border"><h3 class="text-lg font-medium mb-4">Referral Mechanics</h3><ul class="space-y-3"><li class="flex items-start gap-3"><i data-lucide="link" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light">Each user receives a unique referral link tied to their wallet address upon claiming.</p></li><li class="flex items-start gap-3"><i data-lucide="zap" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light">Referral rewards are <span class="text-white">instantly credited</span> — no waiting, no vesting, immediately tradeable or holdable.</p></li><li class="flex items-start gap-3"><i data-lucide="shield" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light">Anti-fraud systems prevent self-referrals, bot networks, and wallet farming through device fingerprinting and behavioral analysis.</p></li><li class="flex items-start gap-3"><i data-lucide="infinity" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light">No cap on referral earnings. Top referrers gain additional DAO governance power and exclusive community badges.</p></li></ul></div>
+<div class="glass rounded-2xl p-8 gradient-border"><h3 class="text-lg font-medium mb-4">Viral Coefficient Analysis</h3><p class="text-sm text-neutral-400 font-light leading-relaxed mb-4">Our referral model is engineered to achieve a viral coefficient (K-factor) greater than 1.0 — meaning each user, on average, brings in more than one additional user. At a $100 reward per referral against a $6 entry cost, the incentive asymmetry is enormous (16.7x return on referral effort).</p><div class="space-y-3"><div class="flex justify-between text-sm"><span class="text-neutral-500">Projected K-factor</span><span class="text-white font-mono text-xs">1.4 – 2.1</span></div><div class="flex justify-between text-sm"><span class="text-neutral-500">Avg. referrals per user</span><span class="text-white font-mono text-xs">2.8</span></div><div class="flex justify-between text-sm"><span class="text-neutral-500">Day-90 user projection</span><span class="text-white font-mono text-xs">500,000+</span></div><div class="flex justify-between text-sm"><span class="text-neutral-500">Referral reward pool budget</span><span class="text-white font-mono text-xs">$14M (from Community allocation)</span></div></div></div>
+</div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S10: SECURITY ===== -->
+<section id="security" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 010</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-12">Security & Compliance</h2>
+<div class="space-y-6">
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center"><i data-lucide="fingerprint" class="w-6 h-6 text-blue-400"></i></div><div><h3 class="text-lg font-medium">Tiered KYC Framework</h3><p class="text-xs text-neutral-500">Progressive identity verification based on interaction level</p></div></div><p class="text-neutral-400 font-light leading-relaxed">Tier 0 (under $500 in total withdrawals) requires only wallet connection and basic device verification — no personal documents. Tier 1 (withdrawals between $500 and $5,000) requires government-issued ID verification through our integrated KYC partner. Tier 2 (withdrawals exceeding $5,000) requires enhanced due diligence including proof of address and source of funds documentation. This tiered approach ensures that the vast majority of users in developing nations can participate without facing documentary barriers, while still maintaining robust anti-money laundering (AML) controls at higher transaction volumes that could attract regulatory scrutiny.</p></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center"><i data-lucide="list-ordered" class="w-6 h-6 text-green-400"></i></div><div><h3 class="text-lg font-medium">Withdrawal Queue System</h3><p class="text-xs text-neutral-500">Smart management for the 90-day unlock event</p></div></div><p class="text-neutral-400 font-light leading-relaxed">When the 90-day vesting period concludes, a large number of users will simultaneously become eligible to withdraw their fully vested tokens. Without management, this could create gas wars on the BSC network, extreme slippage on the DEX, and a poor user experience. Our Withdrawal Queue system addresses this through a randomized, staggered withdrawal window. Users are assigned a specific 6-hour window within a 7-day withdrawal period, during which they can withdraw at standard gas rates. This distributes the sell pressure across time, protecting both the token price and the user experience.</p></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center"><i data-lucide="search" class="w-6 h-6 text-purple-400"></i></div><div><h3 class="text-lg font-medium">NGO Due Diligence Process</h3><p class="text-xs text-neutral-500">Rigorous financial auditing before onboarding any partner</p></div></div><div class="grid md:grid-cols-2 gap-4"><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Stage 1: Legal Verification</p><p class="text-xs text-neutral-500 leading-relaxed">Confirm legal registration, tax-exempt status, board of directors, and operational history (minimum 2 years).</p></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Stage 2: Financial Audit</p><p class="text-xs text-neutral-500 leading-relaxed">Review of last 3 years of audited financial statements, overhead ratio analysis, and fund allocation patterns.</p></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Stage 3: Impact Assessment</p><p class="text-xs text-neutral-500 leading-relaxed">Evaluation of past project outcomes, beneficiary reach, and third-party impact reports or ratings.</p></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Stage 4: On-Site Validation</p><p class="text-xs text-neutral-500 leading-relaxed">Physical or virtual site visit by our partnership team. Verification of operations, team, and beneficiary conditions.</p></div></div></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center"><i data-lucide="bug" class="w-6 h-6 text-amber-400"></i></div><div><h3 class="text-lg font-medium">Smart Contract Audits</h3><p class="text-xs text-neutral-500">Multiple independent security reviews</p></div></div><p class="text-neutral-400 font-light leading-relaxed">All Humanity Coin smart contracts — including the main token contract, claim contract, vesting contract, Humanity Vault, referral system, and DAO governance modules — will undergo independent security audits by at least two recognized firms (e.g., CertiK, Hacken, or PeckShield) prior to mainnet deployment. Audit reports will be published publicly. Additionally, we will operate a bug bounty program with rewards up to $250,000 for critical vulnerability disclosures during the first 12 months post-launch.</p></div>
+</div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S11: DAO GOVERNANCE ===== -->
+<section id="governance" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 011</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-4">DAO Governance Framework</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-12 max-w-3xl">Humanity Coin is governed by its community of token holders through a structured DAO framework. Governance power is directly proportional to $HC holdings, ensuring that those with the greatest stake in the ecosystem have the greatest influence over its direction.</p>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="glass rounded-2xl p-8 gradient-border"><h3 class="text-lg font-medium mb-4">Governable Parameters</h3><ul class="space-y-3"><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">NGO Funding Approval:</span> Vote on individual funding requests from the Aid Portal</p></li><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">Tax Rate Adjustment:</span> Propose changes to the 10% transaction tax split (within ±2% bounds)</p></li><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">NGO Whitelisting/Delisting:</span> Add or remove NGOs from the eligible partner list</p></li><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">Vault Emergency Actions:</span> Trigger or lift vault freeze in response to security events</p></li><li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i><p class="text-sm text-neutral-400 font-light"><span class="text-white font-normal">Protocol Upgrades:</span> Approve smart contract upgrades through timelocked execution</p></li></ul></div>
+<div class="glass rounded-2xl p-8 gradient-border"><h3 class="text-lg font-medium mb-4">Voting Mechanism</h3><div class="space-y-4"><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-1">Quorum Requirement</p><p class="text-xs text-neutral-500 leading-relaxed">Minimum 15% of total circulating supply must participate for a vote to be valid. This prevents small minorities from passing proposals when the majority is inactive.</p></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-1">Passing Threshold</p><p class="text-xs text-neutral-500 leading-relaxed">Standard proposals require simple majority (>50%). Emergency actions (vault freeze, contract pause) require supermajority (67%). Constitutional changes require 75%.</p></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-1">Voting Period</p><p class="text-xs text-neutral-500 leading-relaxed">Standard proposals: 5-day voting window. Emergency proposals: 24-hour accelerated window with 48-hour execution timelock.</p></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-1">Delegation</p><p class="text-xs text-neutral-500 leading-relaxed">Holders can delegate their voting power to trusted community members or governance specialists without transferring token ownership.</p></div></div></div>
+</div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S12: TECHNICAL ===== -->
+<section id="technical" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 012</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-12">Technical Architecture</h2>
+<div class="glass rounded-3xl p-8 md:p-10 gradient-border mb-12"><h3 class="text-lg font-medium mb-6">Smart Contract Stack</h3><div class="space-y-4">
+<div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0"><i data-lucide="file-code" class="w-5 h-5 text-blue-400"></i></div><div><p class="text-sm font-medium mb-1">HumanityToken (BEP-20)</p><p class="text-xs text-neutral-500">Core token contract with built-in tax mechanism, reflection distribution, auto-liquidity generation, and vault routing. Built on Solidity 0.8.20 with OpenZeppelin libraries. Gas-optimized to minimize transaction costs on BSC.</p></div></div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0"><i data-lucide="hand-coins" class="w-5 h-5 text-green-400"></i></div><div><p class="text-sm font-medium mb-1">ClaimContract</p><p class="text-xs text-neutral-500">Handles $6 entry fee collection, allocation calculation, anti-sybil validation, and vesting schedule management. Interacts with the referral contract to track and reward referrers. Includes emergency pause functionality.</p></div></div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0"><i data-lucide="landmark" class="w-5 h-5 text-purple-400"></i></div><div><p class="text-sm font-medium mb-1">HumanityVault</p><p class="text-xs text-neutral-500">Multi-signature timelocked vault with daily disbursement limits, emergency freeze capability, and integrated DEX routing for stablecoin conversion. Emits detailed events for the Impact Dashboard indexer.</p></div></div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0"><i data-lucide="users" class="w-5 h-5 text-amber-400"></i></div><div><p class="text-sm font-medium mb-1">ReferralRegistry</p><p class="text-xs text-neutral-500">Tracks referral relationships, validates referral eligibility, prevents self-referral and circular referral patterns, and triggers instant reward distribution upon successful claim completion by referred users.</p></div></div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5"><div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0"><i data-lucide="vote" class="w-5 h-5 text-cyan-400"></i></div><div><p class="text-sm font-medium mb-1">GovernorAlpha (DAO)</p><p class="text-xs text-neutral-500">OpenZeppelin Governor contract customized for Humanity Coin's governance requirements. Supports proposal creation, delegation, time-locked execution, and multi-class voting thresholds.</p></div></div>
+</div></div>
+<div class="grid md:grid-cols-3 gap-6"><div class="glass rounded-2xl p-6 gradient-border text-center"><i data-lucide="layers" class="w-8 h-8 text-blue-400 mx-auto mb-3"></i><p class="text-sm font-medium mb-1">Blockchain</p><p class="text-xs text-neutral-500">Binance Smart Chain (BSC)</p><p class="text-[10px] text-neutral-600 mt-1">~3s block time, ~$0.05 gas</p></div><div class="glass rounded-2xl p-6 gradient-border text-center"><i data-lucide="code" class="w-8 h-8 text-green-400 mx-auto mb-3"></i><p class="text-sm font-medium mb-1">Language</p><p class="text-xs text-neutral-500">Solidity 0.8.20</p><p class="text-[10px] text-neutral-600 mt-1">OpenZeppelin v5.0</p></div><div class="glass rounded-2xl p-6 gradient-border text-center"><i data-lucide="database" class="w-8 h-8 text-purple-400 mx-auto mb-3"></i><p class="text-sm font-medium mb-1">Storage</p><p class="text-xs text-neutral-500">IPFS (Arweave backup)</p><p class="text-[10px] text-neutral-600 mt-1">For impact evidence</p></div></div>
+</div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S13: PARTNERS ===== -->
+<section id="partners" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 013</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-4">NGO Partners & Ecosystem</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-12 max-w-3xl">The strength of Humanity Coin's impact model depends entirely on the quality and credibility of its NGO partners. We are building a curated ecosystem of organizations that demonstrate both operational excellence and measurable impact in their respective domains.</p>
+<div class="callout-box mb-12"><p class="text-sm text-blue-300/80 font-medium mb-2">Initial Partner Cohort (Q1-Q2 2026)</p><p class="text-xs text-neutral-500 leading-relaxed">Three NGO partners have been fully vetted and approved during the foundation phase. Their identities will be publicly announced at the Q3 launch event alongside the first DAO funding proposals. Partner selection criteria prioritized: geographic diversity (Africa, Southeast Asia, Latin America), cause diversity (water, education, healthcare), organizational maturity (5+ years), and verifiable past impact metrics.</p></div>
+<div class="grid md:grid-cols-3 gap-6 mb-12">
+<div class="glass rounded-2xl p-6 gradient-border text-center"><div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="droplets" class="w-6 h-6 text-blue-400"></i></div><p class="text-sm font-medium mb-1">Clean Water Access</p><p class="text-xs text-neutral-500">Borehole wells, filtration systems, and sanitation infrastructure in sub-Saharan Africa</p><p class="text-[10px] text-blue-400 mt-3 font-medium">PARTNER 1 — AFRICA</p></div>
+<div class="glass rounded-2xl p-6 gradient-border text-center"><div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="graduation-cap" class="w-6 h-6 text-green-400"></i></div><p class="text-sm font-medium mb-1">Education Infrastructure</p><p class="text-xs text-neutral-500">School construction, teacher training, and digital learning tools in Southeast Asia</p><p class="text-[10px] text-green-400 mt-3 font-medium">PARTNER 2 — SE ASIA</p></div>
+<div class="glass rounded-2xl p-6 gradient-border text-center"><div class="w-14 h-14 rounded-2xl bg-red-500/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="heart-pulse" class="w-6 h-6 text-red-400"></i></div><p class="text-sm font-medium mb-1">Emergency Healthcare</p><p class="text-xs text-neutral-500">Mobile clinics, essential medicines, and maternal care in Latin America</p><p class="text-[10px] text-red-400 mt-3 font-medium">PARTNER 3 — LATAM</p></div>
+</div>
+<div class="glass rounded-2xl p-8 gradient-border"><h3 class="text-lg font-medium mb-4">Partnership Expansion Roadmap for NGO Partnerships</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-4"><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center"><p class="text-2xl font-medium text-blue-400 mb-1">3</p><p class="text-[10px] text-neutral-500 uppercase tracking-wider">Q2 2026</p><p class="text-xs text-neutral-600 mt-1">Initial vetted partners</p></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center"><p class="text-2xl font-medium text-blue-400 mb-1">10</p><p class="text-[10px] text-neutral-500 uppercase tracking-wider">Q4 2026</p><p class="text-xs text-neutral-600 mt-1">After first disbursement</p></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center"><p class="text-2xl font-medium text-blue-400 mb-1">25</p><p class="text-[10px] text-neutral-500 uppercase tracking-wider">Q2 2027</p><p class="text-xs text-neutral-600 mt-1">Across 6 continents</p></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center"><p class="text-2xl font-medium text-green-400 mb-1">50+</p><p class="text-[10px] text-neutral-500 uppercase tracking-wider">2028</p><p class="text-xs text-neutral-600 mt-1">Full global coverage</p></div></div></div>
+</div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S14: TEAM — ALL 4 PHOTOS ===== -->
+<section id="team" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 014</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-4">Core Team & Advisors</h2>
+<p class="text-neutral-400 font-light leading-relaxed mb-12 max-w-3xl">Humanity Coin is built by a distributed team of blockchain engineers, humanitarian sector professionals, and decentralized finance veterans. Our team combines deep technical expertise with genuine passion for social impact.</p>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+<!-- 1. Khalid Al-Rashid -->
+<div class="glass rounded-2xl p-6 gradient-border text-center">
+<img src="https://z-cdn-media.chatglm.cn/files/7d30aff2-ddb6-46a7-9942-efc7677702ae.png?auth_key=1882233043-d05dcd189e964b45a34657e5b5628e86-0-572df78f0c9283f0a3e4422958512541" alt="Khalid Al-Rashid" class="team-img mx-auto mb-4">
+<p class="text-sm font-medium mb-1">Khalid Al-Rashid</p>
+<p class="text-[10px] text-blue-400 uppercase tracking-wider mb-3">Co-Founder & CEO</p>
+<p class="text-xs text-neutral-500">Former UNDP program director. 12 years in humanitarian operations across 30+ countries. MIT PhD in Development Economics. Expert in cross-border aid coordination and sustainable development finance.</p>
+</div>
+<!-- 2. Sarah Okonkwo -->
+<div class="glass rounded-2xl p-6 gradient-border text-center">
+<div class="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center mx-auto mb-4"><i data-lucide="user" class="w-7 h-7 text-neutral-500"></i></div>
+<p class="text-sm font-medium mb-1">Sarah Okonkwo</p>
+<p class="text-[10px] text-blue-400 uppercase tracking-wider mb-3">Co-Founder & CTO</p>
+<p class="text-xs text-neutral-500">Ex-Binance smart contract engineer. Led security audits for $2B+ TVL protocols. Solidity contributor and DeFi architect with expertise in gas optimization and protocol design.</p>
+</div>
+<!-- 3. Omar bin Sultan -->
+<div class="glass rounded-2xl p-6 gradient-border text-center">
+<img src="https://z-cdn-media.chatglm.cn/files/5aa458cc-5af5-43c9-9b82-f37617903cdd.png?auth_key=1882233043-b3031d517d194d3bb5ce29c83b860f66-0-c6dbd713a53e2a7a27bcda47b9912c89" alt="Omar bin Sultan" class="team-img mx-auto mb-4">
+<p class="text-sm font-medium mb-1">Omar bin Sultan</p>
+<p class="text-[10px] text-blue-400 uppercase tracking-wider mb-3">Head of Partnerships</p>
+<p class="text-xs text-neutral-500">Former Global Fund partnership manager. Network of 200+ NGO relationships across Africa and Asia. 15 years in international development and cross-sector collaboration.</p>
+</div>
+<!-- 4. Yusuf Al-Hakim -->
+<div class="glass rounded-2xl p-6 gradient-border text-center">
+<img src="https://z-cdn-media.chatglm.cn/files/c5c33e89-d84e-4cca-816e-c1a0166930ae.png?auth_key=1882233043-fc2a856d6dcf4430afa41271ef8d50d2-0-917a905aac071f3c0b2220077b1920bc" alt="Yusuf Al-Hakim" class="team-img mx-auto mb-4">
+<p class="text-sm font-medium mb-1">Yusuf Al-Hakim</p>
+<p class="text-[10px] text-green-400 uppercase tracking-wider mb-3">Chief Impact Officer</p>
+<p class="text-xs text-neutral-500">PhD in Monitoring & Evaluation from Oxford. Designed impact frameworks for USAID and DFID. Specialist in proof-of-impact methodologies and data-driven accountability systems.</p>
+</div>
+<!-- 5. Hamza Al-Farsi -->
+<div class="glass rounded-2xl p-6 gradient-border text-center">
+<img src="https://z-cdn-media.chatglm.cn/files/7b7e8795-d561-4ecd-9e37-eb5da7c0d6d5.png?auth_key=1882233043-4505c2f42ced48138a4a3128599862ca-0-759c882ad2dc5f5ff11a4507ac8bdeb5" alt="Hamza Al-Farsi" class="team-img mx-auto mb-4">
+<p class="text-sm font-medium mb-1">Hamza Al-Farsi</p>
+<p class="text-[10px] text-green-400 uppercase tracking-wider mb-3">Lead Smart Contract Dev</p>
+<p class="text-xs text-neutral-500">Former Chainlink core contributor. Built DeFi protocols with $500M+ TVL. Expert in gas optimization and security patterns. Solidity 0.8 specialist with focus on protocol resilience.</p>
+</div>
+<!-- 6. Elena Vasquez -->
+<div class="glass rounded-2xl p-6 gradient-border text-center">
+<div class="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center mx-auto mb-4"><i data-lucide="user" class="w-7 h-7 text-neutral-500"></i></div>
+<p class="text-sm font-medium mb-1">Elena Vasquez</p>
+<p class="text-[10px] text-green-400 uppercase tracking-wider mb-3">Head of Compliance</p>
+<p class="text-xs text-neutral-500">Ex-SEC enforcement attorney. Specializes in crypto regulatory frameworks across US, EU, and APAC jurisdictions. AML/KYC expert with 18 years in financial regulation.</p>
+</div>
+</div>
+<div class="glass rounded-2xl p-8 gradient-border"><h3 class="text-lg font-medium mb-4">Advisory Board</h3><div class="grid md:grid-cols-3 gap-4">
+<div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-sm font-medium mb-1">Prof. David R. Henderson</p><p class="text-[10px] text-amber-400 uppercase tracking-wider mb-2">Economic Advisor</p><p class="text-xs text-neutral-500">Stanford economics professor. Former senior economist at the World Bank. Author of "Aid and Innovation."</p></div>
+<div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-sm font-medium mb-1">Michael Zhao</p><p class="text-[10px] text-amber-400 uppercase tracking-wider mb-2">DeFi Strategy Advisor</p><p class="text-xs text-neutral-500">Former partner at Paradigm Capital. Early investor in Uniswap, Aave, and Compound. Deep expertise in tokenomics design.</p></div>
+<div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-sm font-medium mb-1">Ambassador Fatima Al-Rashid</p><p class="text-[10px] text-amber-400 uppercase tracking-wider mb-2">Humanitarian Advisor</p><p class="text-xs text-neutral-500">Former UAE Ambassador to the UN. Chaired the UNHCR advisory committee. 25 years in diplomatic and humanitarian service.</p></div>
+</div></div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S15: ROADMAP ===== -->
+<section id="roadmap" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 015</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-12">Detailed Roadmap</h2>
+<div class="glass rounded-2xl p-8 gradient-border mb-6"><div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center"><span class="text-green-400 font-medium text-xs">Q1-Q2</span></div><div><h3 class="text-lg font-medium">Foundation Phase</h3><p class="text-xs text-neutral-500">January — June 2026</p></div><span class="ml-auto text-[10px] font-medium text-green-400 bg-green-500/10 px-3 py-1 rounded-full">COMPLETED</span></div><div class="grid md:grid-cols-3 gap-4"><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Funding</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i>$4M Seed Raised and Secured</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i>Legal entity established (BVI)</li></ul></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Partnerships</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i>First 3 NGO Partners Vetted</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i>MOU agreements signed</li></ul></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Development</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i>Mini App Beta deployed</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="check-circle" class="w-3 h-3 text-green-400"></i>2,000+ beta testers onboarded</li></ul></div></div></div>
+<div class="glass rounded-2xl p-8 gradient-border mb-6"><div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-medium text-xs">Q3</span></div><div><h3 class="text-lg font-medium">Launch Phase</h3><p class="text-xs text-neutral-500">July — September 2026</p></div><span class="ml-auto text-[10px] font-medium text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">UPCOMING</span></div><div class="grid md:grid-cols-3 gap-4"><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Public Launch</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Public $6 Claim opens</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Viral Referral Engine active</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>DEX Listing (PancakeSwap)</li></ul></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Marketing</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Partner announcement event</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>50+ KOL campaign</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>CMC & CG listings</li></ul></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Security</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>2nd audit report published</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Bug bounty program launch</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Insurance fund established</li></ul></div></div></div>
+<div class="glass rounded-2xl p-8 gradient-border mb-6"><div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-medium text-xs">Q4</span></div><div><h3 class="text-lg font-medium">Realized Impact Phase</h3><p class="text-xs text-neutral-500">October — December 2026</p></div><span class="ml-auto text-[10px] font-medium text-neutral-500 bg-neutral-500/10 px-3 py-1 rounded-full">PLANNED</span></div><div class="grid md:grid-cols-3 gap-4"><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">The Great Unlock</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>90-day withdrawal event</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Queue system activation</li></ul></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">First Disbursement</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>First major Vault disbursement to NGOs</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Impact Dashboard v1 launch</li></ul></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Expansion</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>7 additional NGO partners</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>CEX listing exploration</li></ul></div></div></div>
+<div class="glass rounded-2xl p-8 gradient-border"><div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center"><span class="text-amber-400 font-medium text-xs">2027</span></div><div><h3 class="text-lg font-medium">Global Expansion Phase</h3><p class="text-xs text-neutral-500">January — December 2027</p></div><span class="ml-auto text-[10px] font-medium text-neutral-500 bg-neutral-500/10 px-3 py-1 rounded-full">VISION</span></div><div class="grid md:grid-cols-2 gap-4"><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Protocol Evolution</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Humanity DAO v2 with quadratic voting</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Cross-chain deployment (Ethereum, Polygon)</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Humanity NFT impact certificates</li></ul></div><div class="p-4 rounded-xl bg-white/[0.02] border border-white/5"><p class="text-xs font-medium text-white mb-2">Ecosystem Growth</p><ul class="space-y-1.5"><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>25+ NGO partners across 6 continents</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>$10M+ total Vault disbursements</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>2M+ unique holders</li><li class="flex items-center gap-2 text-xs text-neutral-400"><i data-lucide="circle" class="w-3 h-3 text-neutral-600"></i>Tier-1 CEX listing</li></ul></div></div></div>
+</div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S16: RISK ===== -->
+<section id="risk" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 016</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-12">Risk Factors & Disclaimers</h2>
+<div class="warning-box mb-12"><p class="text-sm text-amber-300/80 font-medium mb-2">⚠️ Important Risk Disclosure</p><p class="text-xs text-neutral-500 leading-relaxed">Participation in the Humanity Coin ecosystem involves significant risks, including but not limited to the potential loss of your entire $6 entry fee and any tokens received. The $1,000 allocation value is based on the fixed claim price and is not guaranteed to maintain this value in open market trading. Cryptocurrency markets are highly volatile, and past performance is not indicative of future results. This whitepaper does not constitute financial advice.</p></div>
+<div class="space-y-4">
+<div class="glass rounded-2xl p-6 gradient-border"><h3 class="text-sm font-medium mb-2 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>Market Volatility Risk</h3><p class="text-xs text-neutral-500 leading-relaxed">The value of $HC tokens is determined by market forces and may fluctuate significantly. The $1,000 allocation received at claim is valued at the fixed claim price, not at market price. Upon listing on DEX, the actual market price may be higher or lower than the claim price. You could lose a portion or all of your $6 entry fee.</p></div>
+<div class="glass rounded-2xl p-6 gradient-border"><h3 class="text-sm font-medium mb-2 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>Smart Contract Risk</h3><p class="text-xs text-neutral-500 leading-relaxed">Despite multiple audits, smart contracts may contain undiscovered vulnerabilities that could result in the loss of tokens or funds. While we employ industry-standard security practices, no code is entirely immune to exploitation. The bug bounty program and insurance fund are designed to mitigate — but cannot eliminate — this risk.</p></div>
+<div class="glass rounded-2xl p-6 gradient-border"><h3 class="text-sm font-medium mb-2 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>Regulatory Risk</h3><p class="text-xs text-neutral-500 leading-relaxed">The regulatory landscape for cryptocurrencies and tokens is evolving rapidly and varies significantly across jurisdictions. $HC may be classified as a security in certain jurisdictions, which could impose additional compliance requirements, restrict trading, or result in enforcement actions. We actively monitor regulatory developments but cannot guarantee compliance with future regulations.</p></div>
+<div class="glass rounded-2xl p-6 gradient-border"><h3 class="text-sm font-medium mb-2 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>Liquidity Risk</h3><p class="text-xs text-neutral-500 leading-relaxed">While 20% of total supply is allocated to liquidity and 3% of every transaction auto-adds to the pool, liquidity conditions depend on overall trading activity. In periods of low volume or high selling pressure, you may experience significant slippage when executing trades, or may be unable to sell tokens at your desired price.</p></div>
+<div class="glass rounded-2xl p-6 gradient-border"><h3 class="text-sm font-medium mb-2 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>NGO Execution Risk</h3><p class="text-xs text-neutral-500 leading-relaxed">Despite rigorous due diligence, NGOs may fail to execute funded projects as planned, misallocate funds, or provide fraudulent impact evidence. While our Proof of Impact Protocol and DAO oversight are designed to detect and address such issues, they cannot prevent all instances of poor execution or bad faith.</p></div>
+<div class="glass rounded-2xl p-6 gradient-border"><h3 class="text-sm font-medium mb-2 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>Network Risk</h3><p class="text-xs text-neutral-500 leading-relaxed">Humanity Coin operates on the Binance Smart Chain (BSC). Any disruption to BSC's operations — including but not limited to consensus failures, 51% attacks, or network upgrades that introduce incompatibilities — could impact the functionality of $HC smart contracts and the broader ecosystem.</p></div>
+</div></div></section>
+<div class="section-divider max-w-5xl mx-auto"></div>
+
+<!-- ===== S17: LEGAL ===== -->
+<section id="legal" class="py-32 px-6"><div class="max-w-5xl mx-auto">
+<div class="flex items-center gap-3 mb-4"><span class="text-[10px] font-mono text-blue-400 uppercase tracking-wider">Section 017</span><div class="flex-1 h-px bg-white/5"></div></div>
+<h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-12">Legal Notice</h2>
+<div class="glass rounded-3xl p-8 md:p-12 gradient-border"><div class="space-y-6 text-xs text-neutral-500 leading-relaxed">
+<p><span class="text-white font-medium">No Investment Advice:</span> This whitepaper is for informational purposes only and does not constitute an offer to sell, a solicitation of an offer to buy, or a recommendation to purchase $HC tokens. Nothing in this document should be construed as investment advice, financial advice, legal advice, or any other form of professional advice. You should consult with your own professional advisors before making any decision to purchase $HC tokens.</p>
+<p><span class="text-white font-medium">No Guarantee of Returns:</span> Humanity Coin makes no guarantees, representations, or warranties regarding the future value, price, or performance of $HC tokens. The $1,000 allocation value referenced in this document is the notional value at the fixed claim price and does not represent a guaranteed return. Token values are subject to market forces and may decrease to zero.</p>
+<p><span class="text-white font-medium">Jurisdictional Restrictions:</span> The distribution of $HC tokens may be restricted or prohibited in certain jurisdictions, including but not limited to the United States (for certain categories of participants), China, and any jurisdiction where cryptocurrency token offerings are regulated or banned. It is your sole responsibility to ensure that your participation complies with all applicable local laws and regulations.</p>
+<p><span class="text-white font-medium">Tax Obligations:</span> You are solely responsible for determining and paying any taxes that may arise from your participation in the Humanity Coin ecosystem, including but not limited to income tax, capital gains tax, and transaction tax obligations in your jurisdiction of residence or citizenship.</p>
+<p><span class="text-white font-medium">Intellectual Property:</span> The Humanity Coin name, logo (including the gold coin design depicting hands holding Earth with "PEACE" and heart motifs), and all associated branding elements are the intellectual property of Humanity Coin Ltd. (BVI). Unauthorized reproduction, distribution, or use of these elements is strictly prohibited.</p>
+<p><span class="text-white font-medium">Limitation of Liability:</span> To the maximum extent permitted by applicable law, Humanity Coin Ltd., its directors, officers, employees, advisors, and agents shall not be liable for any direct, indirect, incidental, special, consequential, or exemplary damages arising from or related to your participation in the Humanity Coin ecosystem, including but not limited to loss of funds, loss of profits, or loss of data.</p>
+<p><span class="text-white font-medium">Forward-Looking Statements:</span> This whitepaper contains forward-looking statements, including projections, estimates, and expectations regarding future performance, partnerships, and impact. These statements are based on current assumptions and are subject to risks, uncertainties, and changes. Actual results may differ materially from those projected.</p>
+</div></div></section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="py-16 px-6 border-t border-white/5"><div class="max-w-5xl mx-auto">
+<div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+<div class="flex items-center gap-3"><img src="https://z-cdn-media.chatglm.cn/files/bc9d79ae-f154-4c26-9d00-df56e9b51a4c.jpg?auth_key=1882204501-9b41980fa4f84d29bccac7788ec99408-0-29617c0ef99ed62e8c73f52df32c7edb" alt="Humanity Coin" class="w-10 h-10 rounded-full object-cover"><div><p class="text-sm font-medium">Humanity Coin</p><p class="text-[10px] text-neutral-600">Growing Our Shared Future</p></div></div>
+<div class="flex items-center gap-4 text-neutral-600"><span class="text-xs">Built on Binance Smart Chain</span><span class="text-neutral-800">|</span><span class="text-xs">BEP-20 Standard</span><span class="text-neutral-800">|</span><span class="text-xs">1,000,000,000 $HC</span></div>
+</div>
+<div class="section-divider mb-8"></div>
+<div class="flex flex-col md:flex-row items-center justify-between gap-4">
+<p class="text-[10px] text-neutral-600">© 2026 Humanity Coin Ltd. (BVI) — All Rights Reserved</p>
+<p class="text-[10px] text-neutral-700">Whitepaper v2.1 — Published June 2026 — Subject to Updates</p>
+</div>
+</div></footer>
+
+<!-- ===== BACK TO TOP ===== -->
+<button id="back-to-top" class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full glass-strong flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 hover:bg-white/10"><i data-lucide="arrow-up" class="w-5 h-5 text-neutral-400"></i></button>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+lucide.createIcons();
+
+// ===== PDF DOWNLOAD =====
+function downloadPDF(){
+  const t=document.createElement('div');
+  t.innerHTML='<div style="position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(23,23,23,0.95);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px 24px;display:flex;align-items:center;gap:12px;animation:fadeUp 0.4s ease-out forwards;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><div><p style="font-size:13px;font-weight:500;color:#fff;margin:0;">Saving as PDF...</p><p style="font-size:11px;color:#737373;margin:2px 0 0;">In the print dialog, select "Save as PDF" as the destination</p></div></div>';
+  document.body.appendChild(t);
+  setTimeout(()=>{window.print();setTimeout(()=>{t.remove()},3000)},500);
+}
+
+// ===== POWERPOINT DOWNLOAD =====
+async function downloadPPTX(){
+  const toast=document.createElement('div');
+  toast.className='pptx-toast';
+  toast.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(23,23,23,0.95);backdrop-filter:blur(24px);border:1px solid rgba(249,115,22,0.3);border-radius:16px;padding:20px 28px;display:flex;align-items:center;gap:14px;animation:fadeUp 0.4s ease-out forwards;';
+  toast.innerHTML='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><div><p style="font-size:14px;font-weight:500;color:#fff;margin:0;">Generating PowerPoint...</p><p style="font-size:11px;color:#a3a3a3;margin:4px 0 0;">Building 20+ slides with all content, tables, and team photos...</p></div>';
+  document.body.appendChild(toast);
+
+  try{
+    await new Promise(r=>setTimeout(r,200));
+
+    const pptx=new PptxGenJS();
+    pptx.layout='LAYOUT_WIDE';
+    pptx.author='Humanity Coin Ltd.';
+    pptx.company='Humanity Coin Ltd. (BVI)';
+    pptx.subject='Humanity Coin ($HC) Official Whitepaper v2.1';
+    pptx.title='Humanity Coin — Official Whitepaper v2.1';
+
+    const BG='0F0F0F0';
+    const DK='333333';
+    const BL='3b82f6';
+    const GR='22c55e';
+    const OR='f97316';
+
+    // Helper: add section header slide
+    function secHeader(num,title,sub){
+      const s=pptx.addSlide();
+      s.background={fill:BG};
+      s.addText(title,{x:0.7,y:0.5,w:'90%',fontSize:28,bold:true,color:DK});
+      if(sub)s.addText(sub,{x:0.7,y:1.8,w:'80%',fontSize:13,color:'666666'});
+      s.addText('Section '+num,{x:0.7,y:2.6,w:'80%',fontSize:10,color:'999999'});
+      s.addShape(pptx.ShapeType.rect,{x:0.5,y:3.4,w:2,height:0.4,fill:{color:BL}});
+      return s;
+    }
+
+    // Helper: content slide
+    function contentSlide(title,bullets){
+      const s=pptx.addSlide();
+      s.background={fill:BG};
+      s.addText(title,{x:0.7,y:0.5,w:'90%',fontSize:22,bold:true,color:DK});
+      s.addShape(pptx.ShapeType.rect,{x:0.5,y:1.1,w:1.5,height:0.04,fill:{color:BL}});
+      let yy=1.4;
+      bullets.forEach(b=>{
+        if(typeof b==='break'){yy+=0.3;return;}
+        s.addText(b,{x:0.7,y:yy,w:'88%',fontSize:11,color:'444444',lineSpacingMultiple:1.3,paraSpaceBefore:6});
+        yy+=s._slideObjects[s._slideObjects.length-1].h*1.3/20;
+      });
+      s.addText('Humanity Coin — Growing Our Shared Future',{x:0.7,y:6.5,w:'80%',fontSize:8,color:'aaaaaa',align:'left'});
+      s.addText('© 2026 Humanity Coin Ltd. (BVI)',{x:0.7,y:7.0,w:'80%',fontSize:7,color:'bbbbbb',align:'left'});
+      return s;
+    }
+
+    // Slide 1: Title
+    const s1=pptx.addSlide();
+    s.background={fill:'111111'};
+    s.addText('HUMANITY COIN',  {x:0.5,y:1.2,w:'90%',fontSize:40,bold:true,color:'FFFFFF',align:'center'});
+    s.addText('$HC — Join for $6 · Secure $1,000 Value',{x:0.5,y:2.4,w:'90%',fontSize:16,color:'AAAAAA',align:'center'});
+    s.addText('The NGO-Centric Ecosystem: Transforming Decentralized Trading into Global Aid',{x:0.5,y:3.3,w:'90%',fontSize:12,color:'888888',align:'center'});
+    s.addShape(pptx.ShapeType.rect,{x:2.5,y:4.4,w:'95%',h:0.02,fill:{color:BL}});
+    s.addText('1B Supply  |  10% Tx Tax  |  BSC Network  |  $4M Seed Raised',{x:0.5,y:4.8,w:'90%',fontSize:10,color:'666666',align:'center'});
+    s.addText('Official Whitepaper v2.1 — June 2026',{x:0.5,y:5.5,w:'90%',fontSize:9,color:'555555',align:'center'});
+    s.addText('© 2026 Humanity Coin Ltd. (BVI)',{x:0.5,y:6.2,w:'90%',fontSize:8,color:'444444',align:'center'});
+
+    // Slide 2: TOC
+    const toc=[
+      '1. Executive Summary',
+      '2. The Problem Statement',
+      '3. The Claim Entry Model',
+      '4. Changing the NGO Narrative',
+      '5. Proof of Impact Protocol',
+      '6. The Humanity Vault Architecture',
+      '7. Tokenomics & Vesting',
+      '8. The 10% Transaction Engine',
+      '9. Viral Growth & Referrals',
+      '10. Security & Compliance',
+      '11. DAO Governance Framework',
+      '12. Technical Architecture',
+      '13. NGO Partners & Ecosystem',
+      '14. Core Team & Advisors',
+      '15. Detailed Roadmap',
+      '16. Risk Factors & Disclaimers',
+      '17. Legal Notice'
+    ];
+    const s2=pptx.addSlide();s.background={fill:BG};
+    s2.addText('Table of Contents',{x:0.7,y:0.5,w:'80%',fontSize:24,bold:true,color:DK});
+    s2.addShape(pptx.ShapeType.rect,{x:0.5,y:1.15,w:1.5,height:0.04,fill:{color:BL}});
+    let ty=1.6;
+    toc.forEach(t=>{s2.addText(t,{x:1.2,y:ty,w:'85%',fontSize:11,color:'444444'});ty+=0.35;});
+    s2.addText('Humanity Coin — Growing Our Shared Future',{x:0.7,y:ty+0.4,w:'80%',fontSize:8,color:'aaaaaa'});
+
+    // Slide 3: Executive Summary
+    secHeader('001','Executive Summary','Mission, approach, key metrics');
+    contentSlide('Executive Summary',[
+      'Humanity Coin ($HC) is a bridge between DeFi speculation and humanitarian need. Built on Binance Smart Chain (BSC), we have removed barriers to both impact and entry.',
+      'Our approach is three-pronged: (1) A frictionless $6 claim entry model; (2) A 10% transaction tax engine routing 3% to the Humanity Vault; (3) A DAO-governed disbursement protocol.',
+      'With $4M seed funding secured, 3 NGO partners vetted, and mini-app beta live, $HC is positioned as the definitive standard for impact-driven DeFi.',
+      'break',
+      'Key Metrics: 47+ countries targeted for NGO partnerships. 100% on-chain transparency. Perpetual aid model — not one-time, continuous funding.'
+    ]);
+
+    // Slide 4: Problem
+    contentSlide('The Problem Statement',[
+      'DeFi TVL surpassed $100B at peak, yet <0.01% directed to humanitarian causes. Crypto wealth remains entirely insulated from real-world impact.',
+      'Traditional charity suffers from: Opacity (20-40% overhead), Intermittency (event-driven giving), Friction (cumbersome process), Verification Gap (no immutable proof of fund usage).',
+      'High barriers to entry exclude developing nations. The average person has zero access to early-stage token opportunities.',
+      'Crypto volatility destroys NGO planning — $50K in volatile tokens can become $35K in days. Humanity Coin's Stable Payout converts vault disbursements to stablecoins instantly.'
+    ]);
+
+    // Slide 5: Claim Model
+    contentSlide('The Claim Entry Model',[
+      'Step 1: Join — Web3 wallet connection + basic identity verification. Under 60 seconds. Anti-sybil protection via device fingerprinting and IP analysis.',
+      'Step 2: Pay $6 — Non-refundable fee payable in BNB or USDT. Generates initial DEX liquidity. Creates psychological anchoring for long-term retention.',
+      'Step 3: Claim $1,000 — Fixed-price allocation at claim price. Egalitarian: no VIP tiers, no priority queues, no insider pricing.',
+      'Step 4: 90-Day Vesting — Linear daily unlock (~1/90th per day). Prevents Day 1 dump dynamics. Referral rewards are NOT subject to vesting — instantly available.'
+    ]);
+
+    // Slide 6: NGO Narrative
+    contentSlide('Changing the NGO Narrative: Perpetual Aid',[
+      'Traditional Charity: Intermittent, opaque, 20-40% overhead, self-reported audits, passive donor engagement, limited by banking infrastructure.',
+      'Perpetual Aid ($HC): Continuous automated funding, 100% on-chain transparency, community DAO-voted approvals, on-chain proof (receipts, photos, geo-data), zero volatility via instant stablecoin conversion, <2% overhead.',
+      'Fair Launch Guarantee: Every wallet receives identical $1,000 allocation at identical fixed price.',
+      'Transparency: Every transaction from tax generation to NGO stablecoin receipt is immutable on BSC. The blockchain is the auditor — it never sleeps.'
+    ]);
+
+    // Slide 7: PoIP
+    contentSlide('Proof of Impact Protocol',[
+      'Step 1 — Aid Portal: Only vetted NGOs submit proposals with measurable outcomes, line-item budgets, milestone timelines, beneficiary counts.',
+      'break',
+      'Step 2 — Impact Verification: On-chain evidence at each milestone — photos with EXIF GPS data, digital receipts, third-party audits, beneficiary confirmation. Stored via IPFS, tamper-proof.',
+      'break',
+      'Step 3 — Stable Payouts: DAO-approved disbursements auto-converted to USDT/USDC. NGO approved for $50K receives exactly $50,000 in stablecoins — not a penny less.'
+    ]);
+
+    // Slide 8: Vault
+    contentSlide('The Humanity Vault Architecture',[
+      'Security: 48-hour timelock, 3-of-5 multi-sig (>$10K+), 5% daily limit, 72-hour emergency freeze (67% DAO vote to lift), full audit trail on public Impact Dashboard.',
+      'break',
+      'Projected Accumulation: Month 1: $180K → Month 3: $890K → Month 6: $2.4M → Month 12: $5.8M → Month 24: $14.2M (based on $2M daily volume at 3% allocation).'
+    ]);
+
+    // Slide 9: Tokenomics
+    const s9=pptx.addSlide();s.background={fill:BG};
+    s9.addText('Tokenomics & Vesting',{x:0.7,y:0.5,w:'80%',fontSize:22,bold:true,color:DK});
+    s9.addShape(pptx.ShapeType.rect,{x:0.5,y:1.1,w:1.5,height:0.04,fill:{color:BL}});
+    s9.addText('Total Supply: 1,000,000,000 $HC  |  BEP-20 (BSC)',{x:0.7,y:1.4,w:'80%',fontSize:11,color:'666666'});
+    const tokRows=[
+      ['Community App','20%','200M','90-day linear unlock','Active'],
+      ['Liquidity Pool','20%','200M','Locked 5 years','Locked'],
+      ['NGO Treasury','15%','150M','Monthly vault release','Aid Fuel'],
+      ['Private Seed','15%','150M','12-mo cliff, quarterly vesting','Invested'],
+      ['Team & Dev','30%','300M','24-mo scheduled, 6-mo cliff','Future'],
+    ];
+    let ty9=2.2;
+    s9.addTableRows(tokRows.map(r=>[
+      {text:r[0],options:{fontSize:10,bold:true,color:DK,border:none}},
+      {text:r[1],options:{fontSize:10,color:'666666',border:none,align:'center'}},
+      {text:r[2],options:{fontSize:9,color:'888888',border:none}},
+      {text:r[3],options:{fontSize:9,color:'666666',border:none}},
+      {text:r[4],options:{fontSize:9,color:'22c55e',border:none}}
+    ],{x:0.7,y:ty,w:'88%',border:{type:'solid',pt:0.5,color:'DDDDDD'},fontFace:'Inter',autoPage:false});
+    ty9+=3;
+
+    // Slide 10: Transaction Engine
+    contentSlide('The 10% Transaction Engine',[
+      '4% — Reflections to Holders: Auto-redistributed proportional to balance. Compounding reward for long-term conviction.',
+      '3% — Auto-Liquidity: Added to $HC/BNB pool on PancakeSwap. LP tokens permanently locked. Growing price floor over time.',
+      '3% — NGO Humanity Vault: Lifeblood of perpetual aid. Every trade becomes a micro-donation that accumulates into meaningful funding.',
+      'Tax applies to market-facing transactions only. Internal protocol operations are exempt to prevent tax-on-tax compounding.'
+    ]);
+
+    // Slide 11: Growth
+    contentSlide('Viral Growth & Referrals',[
+      'INVITE 3 FRIENDS = $300',
+      'To ensure mass adoption, we reward active community builders. Every successful $6 claim by a referred user adds $100 worth of $HC to the referrer\'s wallet instantly.',
+      'K-factor engineered > 1.0. At $100 reward vs $6 cost = 16.7x incentive asymmetry. Projected 500K+ users in 90 days. Referral reward pool: $14M.',
+      'Anti-fraud: Device fingerprinting, behavioral analysis. No cap on earnings. Top referrers gain additional DAO governance power.'
+    ]);
+
+    // Slide 12: Security
+    contentSlide('Security & Compliance',[
+      'Tiered KYC: Tier 0 (<$500) wallet+device only. Tier 1 ($500-$5K) government ID. Tier 2 (>$5K+) enhanced due diligence.',
+      'Withdrawal Queue: Randomized 6-hour windows within a 7-day period post-vesting. Distributes sell pressure. Protects price and UX.',
+      'NGO Due Diligence: 4 stages — Legal Verification, Financial Audit, Impact Assessment, On-Site Validation.',
+      'Smart Contract Audits: 2+ recognized firms (CertiK, Hacken, PeckShield). Bug bounty: Up to $250K for critical vulnerabilities.'
+    ]);
+
+    // Slide 13: DAO
+    contentSlide('DAO Governance Framework',[
+      'Governable: NGO Funding Approval, Tax Rate Adjustment (±2% bounds), NGO Whitelisting/Delisting, Vault Emergency Actions, Protocol Upgrades.',
+      'Quorum: 15% of circulating supply. Thresholds: Standard >50%, Emergency 67%, Constitutional 75%.',
+      'Voting: Standard 5-day window. Emergency: 24-hour with 48-hour timelock. Delegation: Vote power delegated without transferring tokens.'
+    ]);
+
+    // Slide 14: Technical
+    contentSlide('Technical Architecture',[
+      'HumanityToken (BEP-20): Tax, reflection, auto-liquidity, vault routing. Solidity 0.8.20. OpenZeppelin v5.0. Gas-optimized.',
+      'ClaimContract: $6 entry, allocation, anti-sybil, vesting, referral integration. Emergency pause capability.',
+      'HumanityVault: Multi-sig timelocked vault. Daily limits. Emergency freeze. DEX routing for stablecoin conversion.',
+      'ReferralRegistry: Relationship tracking, eligibility validation, circular prevention, instant rewards.',
+      'GovernorAlpha: OpenZeppelin Governor. Proposal creation, delegation, timelocked execution, multi-class thresholds.',
+      'Stack: BSC (~3s block, ~$0.05 gas). Language: Solidity 0.8.20. Storage: IPFS + Arweave.'
+    ]);
+
+    // Slide 15: Partners
+    contentSlide('NGO Partners & Ecosystem',[
+      'Partner 1 (Africa): Clean Water Access — Borehole wells, filtration, sanitation in sub-Saharan Africa.',
+      'Partner 2 (SE Asia): Education Infrastructure — Schools, teacher training, digital learning tools.',
+      'Partner 3 (LATAM): Emergency Healthcare — Mobile clinics, medicines, maternal care.',
+      'Expansion: Q2 2026: 3 partners → Q4 2026: 10 partners → Q2 2027: 25 partners (6 continents) → 2028: 50+ partners (full global coverage).'
+    ]);
+
+    // Slide 16: Team
+    const s16=pptx.addSlide();s16.background={fill:BG};
+    s16.addText('Core Team & Advisors',{x:0.7,y:0.5,w:'80%',fontSize:22,bold:true,color:DK});
+    s16.addShape(pptx.ShapeType.rect,{x:0.5,y:1.1,w:1.5,height:0.04,fill:{color:BL}});
+    const team=[
+      ['Khalid Al-Rashid','Co-Founder & CEO','Former UNDP director. 12 years humanitarian ops across 30+ countries. MIT PhD.'],
+      ['Sarah Okonkwo','Co-Founder & CTO','Ex-Binance engineer. Led audits for $2B+ TVL. Solidity contributor.'],
+      ['Omar bin Sultan','Head of Partnerships','Former Global Fund. 200+ NGO relationships. 15 years intl development.'],
+      ['Yusuf Al-Hakim','Chief Impact Officer','Oxford PhD. Designed frameworks for USAID and DFID. M&E specialist.'],
+      ['Hamza Al-Farsi','Lead Smart Contract Dev','Ex-Chainlink contributor. $500M+ TVL built. Gas optimization expert.'],
+      ['Elena Vasquez','Head of Compliance','Ex-SEC attorney. Crypto regulatory specialist across US, EU, APAC. AML/KYC expert.'],
+    ];
+    let ty16=1.8;
+    team.forEach(t=>{
+      s16.addText(t[0],{x:0.7,y:ty16,w:'70%',fontSize:12,bold:true,color:DK});
+      s16.addText(t[1],{x:0.7,y:ty16+0.3,w:'70%',fontSize:9,color:'666666'});
+      s16.addText(t[2],{x:0.7,y:ty16+0.7,w:'70%',fontSize:8,color:'888888'});
+      ty16+=1.5;
+    });
+    ty16+=0.5;
+    s16.addShape(pptx.ShapeType.rect,{x:0.5,y:ty16,w:'80%',h:0.02,fill:{color:'DDDDDD'}});
+
+    // Slide 17: Roadmap
+    contentSlide('Detailed Roadmap',[
+      'Q1-Q2 (COMPLETED): $4M Seed Raised and Secured. First 3 NGO Partners Vetted. Mini App Beta deployed with 2,000+ testers.',
+      'break',
+      'Q3 (UPCOMING): Public $6 Claim opens. Viral Referral Engine active. DEX Listing (PancakeSwap). 50+ KOL campaign. CMC & CG listings.',
+      'Q4 (PLANNED): The Great Unlock (90-day withdrawal). First major Vault disbursement to NGOs. Impact Dashboard v1 launch. 7 additional NGO partners.',
+      '2027 (VISION): DAO v2 with quadratic voting. Cross-chain (Ethereum, Polygon). Humanity NFT impact certificates. 25+ NGO partners. $10M+ disbursements. 2M+ holders. Tier-1 CEX listing.'
+    ]);
+
+    // Slide 18: Risk
+    contentSlide('Risk Factors & Disclaimers',[
+      'Market Volatility: $1,000 allocation at claim price, not market price. May lose portion or all of $6 entry fee.',
+      'Smart Contract Risk: Despite multiple audits, undiscovered vulnerabilities may exist. Bug bounty + insurance fund mitigate but cannot eliminate risk.',
+      'Regulatory Risk: $HC may be classified as a security in certain jurisdictions.',
+      'Liquidity Risk: Low volume or high selling may cause significant slippage.',
+      'NGO Execution Risk: PoIP detects but cannot prevent all instances of poor execution or bad faith.',
+      'Network Risk: BSC disruptions could impact $HC smart contract functionality.'
+    ]);
+
+    // Slide 19: Legal
+    contentSlide('Legal Notice',[
+      'No Investment Advice: Informational purposes only. Not an offer to sell or recommendation. Consult professional advisors.',
+      'No Guarantee of Returns: $1,000 is notional value at claim price. Values may decrease to zero.',
+      'Jurisdictional Restrictions: Restricted in US (certain categories), China, and other regulated jurisdictions.',
+      'Tax Obligations: Sole responsibility to determine and pay all applicable taxes.',
+      'Intellectual Property: Humanity Coin name, logo, branding © Humanity Coin Ltd. (BVI). Unauthorized use prohibited.',
+      'Limitation of Liability: Maximum extent permitted by law. No liability for direct, indirect, incidental, or consequential damages.',
+      'Forward-Looking Statements: Projections subject to risks. Actual results may differ materially.'
+    ]);
+
+    // Slide 20: Thank You
+    const s20=pptx.addSlide();s20.background={fill:'111111'};
+    s20.addText('HUMANITY COIN',{x:0.5,y:1.5,w:'90%',fontSize:36,bold:true,color:'FFFFFF',align:'center'});
+    s20.addText('Growing Our Shared Future',{x:0.5,y:3.0,w:'90%',fontSize:16,color:'AAAAAA',align:'center'});
+    s20.addShape(pptx.ShapeType.rect,{x:3,y:4.2,w:'94%',h:0.03,fill:{color:BL}});
+    s20.addText('Join for $6 · Secure $1,000 Value',{x:0.5,y:4.6,w:'90%',fontSize:14,color:'888888',align:'center'});
+    s20.addText('humanitycoin.io',{x:0.5,y:5.8,w:'90%',fontSize:11,color:'#60a5fa',align:'center',underline:{color:'#60a5fa',style:'single'}});
+    s20.addText('© 2026 Humanity Coin Ltd. (BVI)',{x:0.5,y:6.6,w:'90%',fontSize:8,color:'#666666',align:'center'});
+
+    // Generate and download
+    const blob=await pptx.write('BLOB');
+    const url=URL.createObjectURL(blob,{type:'application/vnd.openxmlformats-officedocument.presentationml.presentation'});
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='Humanity_Coin_Whitepaper_v2.1.pptx';
+    document.body.appendChild(a);
+    a.click();
+
+    // Remove toast
+    setTimeout(()=>{toast.remove()},3000);
+
+  }catch(err){
+    console.error('PPTX generation failed:',err);
+    const errorToast=document.querySelector('.pptx-toast')||toast;
+    if(errorToast){
+      errorToast.innerHTML='<div style="display:flex;align-items:center;gap:12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><div><p style="font-size:13px;font-weight:500;color:#fff;margin:0;">Generation Failed</p><p style="font-size:11px;color:#fca5a5;margin:2px 0 0;">Try again or use Ctrl+P for PDF instead</p></div></div>';
+      errorToast.style.borderColor='rgba(239,68,68,0.3)';
+      setTimeout(()=>{errorToast.remove()},5000);
+    }
+  }catch(err){
+    console.error('PPTX load error:',err);
+  }
+}
+
+// Mobile menu
+const mobileMenuBtn=document.getElementById('mobile-menu-btn'),mobileMenu=document.getElementById('mobile-menu'),mobileMenuClose=document.getElementById('mobile-menu-close'),mobileLinks=document.querySelectorAll('.mobile-link');
+mobileMenuBtn.addEventListener('click',()=>{mobileMenu.classList.remove('hidden');mobileMenu.classList.add('flex')});
+mobileMenuClose.addEventListener('click',()=>{mobileMenu.classList.add('hidden');mobileMenu.classList.remove('flex')});
+mobileLinks.forEach(l=>{l.addEventListener('click',()=>{mobileMenu.classList.add('hidden');mobileMenu.classList.remove('flex')})});
+
+// Back to top
+const backToTop=document.getElementById('back-to-top');
+window.addEventListener('scroll',()=>{if(window.scrollY>600){backToTop.classList.remove('opacity-0','pointer-events-none');backToTop.classList.add('opacity-100','pointer-events-auto')}else{backToTop.classList.add('opacity-0','pointer-events-none');backToTop.classList.remove('opacity-100','pointer-events-auto')}});
+backToTop.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'})});
+
+// Nav border
+const nav=document.querySelector('nav');
+window.addEventListener('scroll',()=>{if(window.scrollY>50){nav.classList.add('border-white/10');nav.classList.remove('border-white/5')}else{nav.classList.remove('border-white/10');nav.classList.add('border-white/5')}});
+
+// Scroll animations
+const observer=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.style.opacity='1';en.target.style.transform='translateY(0)'}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('section > div').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity 0.6s ease-out, transform 0.6s ease-out';observer.observe(el)});
+</script>
+</body>
+</html>

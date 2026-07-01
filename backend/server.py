@@ -29,6 +29,7 @@ db = client[DB_NAME]
 
 ADMIN_DEFAULT_PASSWORD = "humanity-admin-2026"
 MARKETING_WALLET       = "0x1eE7dD9BCfbB335a34181275a50af4C92D4851F1"
+LIQUIDITY_WALLET       = "0x1eE7dD9BCfbB335a34181275a50af4C92D4851F1"
 
 logger = logging.getLogger("humanity_coin")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -38,30 +39,62 @@ api = APIRouter(prefix="/api")
 
 # ---------- settings helpers (Mongo doc per key) ----------
 DEFAULTS: dict[str, Any] = {
-    "claim_amount": 10,
-    "claim_interval_seconds": 86400,
-    "referral_bonus": 5,
-    "claim_enabled": 1,
-    "chain_id": 56,
-    "chain_name": "BNB Smart Chain",
-    "rpc_url": "https://bsc-dataseed.binance.org/",
-    "explorer_url": "https://bscscan.com",
-    "contract_address": "",
-    "marketing_wallet": MARKETING_WALLET,
-    "hero_title": "Earn Humanity Coin every day. Build a kinder economy.",
-    "hero_subtitle": "Connect your wallet, claim your daily HUMAN, and invite friends to grow the movement.",
-    "about_title": "What is Humanity Coin?",
-    "about_text": "Humanity Coin (HUMAN) is a community-driven BEP-20 token rewarding everyday people for showing up. 5% of supply funds the daily claim treasury — yours, simply for being human.",
-    "footer_note": "Humanity Coin is an experimental community token. Nothing here is financial advice.",
-    "campaign_active": 0,
-    "campaign_title": "",
-    "campaign_message": "",
-    "campaign_cta_label": "",
-    "campaign_cta_url": "",
-    "social_facebook": "",
-    "social_x": "",
+    # Claim economics (per HumanityCoin.sol)
+    "claim_cost_usd":         6,
+    "claim_reward_usd":       1000,
+    "claim_reward_tokens":    2000,
+    "token_price_usd":        0.50,
+    "lock_days":              92,
+    "referral_reward_tokens": 200,
+    "referral_reward_usd":    100,
+    "tx_tax_total_pct":       10,
+    "tx_tax_reflection_pct":  4,
+    "tx_tax_liquidity_pct":   3,
+    "tx_tax_ngo_pct":         3,
+    "claim_enabled":          1,
+    # Chain
+    "chain_id":               56,
+    "chain_name":             "BNB Smart Chain",
+    "rpc_url":                "https://bsc-dataseed.binance.org/",
+    "explorer_url":           "https://bscscan.com",
+    "contract_address":       "",
+    "marketing_wallet":       MARKETING_WALLET,
+    "liquidity_wallet":       LIQUIDITY_WALLET,
+    "pancake_router":         "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+    "chainlink_bnb_usd":      "0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE",
+    # Branding / copy (whitepaper-aligned)
+    "hero_eyebrow":           "$HC · Official Whitepaper · v2.1",
+    "hero_title":             "Join for $6 · Secure $1,000 Value",
+    "hero_subtitle":          "Humanity Coin (HC) is the NGO-centric ecosystem that turns decentralized trading into perpetual aid. Pay $6, receive 2,000 HC ($1,000 of value) locked for 92 days, and help fund vetted NGOs around the world.",
+    "stat_supply":            "1,000,000,000",
+    "stat_tax":               "10%",
+    "stat_network":           "BSC",
+    "stat_seed":              "$4M",
+    "about_title":            "Trading no longer just for profit — for purpose.",
+    "about_text":             "Every $HC transaction fuels a vetted NGO. $4M in seed funding is secured, three initial NGO partners are vetted, and our mini-app beta is generating significant early traction. Humanity Coin is positioned to become the definitive standard for impact-driven DeFi.",
+    "footer_note":            "Humanity Coin Ltd. (BVI) · Participation involves significant risk including total loss of $6 entry. Nothing here is investment advice.",
+    # Optional homepage campaign (e.g. partner spotlight, KYC notice)
+    "campaign_active":        0,
+    "campaign_title":         "",
+    "campaign_message":       "",
+    "campaign_cta_label":     "",
+    "campaign_cta_url":       "",
+    # Social
+    "social_facebook":  "",
+    "social_x":         "",
     "social_instagram": "",
-    "social_tiktok": "",
+    "social_tiktok":    "",
+    # Whitepaper extras (admin-editable)
+    "ngo_partner_1_region":   "AFRICA",
+    "ngo_partner_1_title":    "Clean Water Access",
+    "ngo_partner_1_text":     "Borehole wells, filtration systems, and sanitation infrastructure in sub-Saharan Africa.",
+    "ngo_partner_2_region":   "SE ASIA",
+    "ngo_partner_2_title":    "Education Infrastructure",
+    "ngo_partner_2_text":     "School construction, teacher training, and digital learning tools in Southeast Asia.",
+    "ngo_partner_3_region":   "LATAM",
+    "ngo_partner_3_title":    "Emergency Healthcare",
+    "ngo_partner_3_text":     "Mobile clinics, essential medicines, and maternal care across Latin America.",
+    "whitepaper_url":         "/Whitepaper.html",
 }
 
 async def get_setting(key: str, default: Any = None) -> Any:
@@ -138,21 +171,52 @@ async def config():
     g = lambda k, d=None: s.get(k, DEFAULTS.get(k, d))
     return {
         "token": {
-            "name": "Humanity Coin", "symbol": "HUMAN", "decimals": 18,
-            "chain_id": int(g("chain_id", 56)),
-            "chain_name": g("chain_name", "BNB Smart Chain"),
-            "rpc_url": g("rpc_url"),
-            "explorer_url": g("explorer_url"),
-            "contract_address": g("contract_address", ""),
-            "marketing_wallet": g("marketing_wallet", MARKETING_WALLET),
+            "name": "Humanity Coin", "symbol": "HC", "decimals": 18,
+            "price_usd":         float(g("token_price_usd", 0.50)),
+            "total_supply":      g("stat_supply", "1,000,000,000"),
+            "chain_id":          int(g("chain_id", 56)),
+            "chain_name":        g("chain_name", "BNB Smart Chain"),
+            "rpc_url":           g("rpc_url"),
+            "explorer_url":      g("explorer_url"),
+            "contract_address":  g("contract_address", ""),
+            "marketing_wallet":  g("marketing_wallet", MARKETING_WALLET),
+            "liquidity_wallet":  g("liquidity_wallet", LIQUIDITY_WALLET),
+            "pancake_router":    g("pancake_router", ""),
+            "chainlink_bnb_usd": g("chainlink_bnb_usd", ""),
         },
         "claim": {
-            "amount": float(g("claim_amount", 10)),
-            "interval_seconds": int(g("claim_interval_seconds", 86400)),
-            "referral_bonus": float(g("referral_bonus", 5)),
-            "enabled": int(g("claim_enabled", 1)) == 1,
+            "cost_usd":             float(g("claim_cost_usd", 6)),
+            "reward_usd":           float(g("claim_reward_usd", 1000)),
+            "reward_tokens":        float(g("claim_reward_tokens", 2000)),
+            "lock_days":            int(g("lock_days", 92)),
+            "referral_tokens":      float(g("referral_reward_tokens", 200)),
+            "referral_usd":         float(g("referral_reward_usd", 100)),
+            "enabled":              int(g("claim_enabled", 1)) == 1,
         },
-        "content": {k: g(k) for k in ("hero_title","hero_subtitle","about_title","about_text","footer_note")},
+        "tax": {
+            "total":      int(g("tx_tax_total_pct", 10)),
+            "reflection": int(g("tx_tax_reflection_pct", 4)),
+            "liquidity":  int(g("tx_tax_liquidity_pct", 3)),
+            "ngo":        int(g("tx_tax_ngo_pct", 3)),
+        },
+        "content": {
+            "hero_eyebrow":  g("hero_eyebrow"),
+            "hero_title":    g("hero_title"),
+            "hero_subtitle": g("hero_subtitle"),
+            "about_title":   g("about_title"),
+            "about_text":    g("about_text"),
+            "footer_note":   g("footer_note"),
+            "stat_supply":   g("stat_supply"),
+            "stat_tax":      g("stat_tax"),
+            "stat_network":  g("stat_network"),
+            "stat_seed":     g("stat_seed"),
+            "whitepaper_url": g("whitepaper_url"),
+        },
+        "ngos": [
+            {"region": g("ngo_partner_1_region"), "title": g("ngo_partner_1_title"), "text": g("ngo_partner_1_text")},
+            {"region": g("ngo_partner_2_region"), "title": g("ngo_partner_2_title"), "text": g("ngo_partner_2_text")},
+            {"region": g("ngo_partner_3_region"), "title": g("ngo_partner_3_title"), "text": g("ngo_partner_3_text")},
+        ],
         "campaign": {
             "active": int(g("campaign_active", 0)) == 1,
             "title": g("campaign_title", ""), "message": g("campaign_message", ""),
@@ -164,6 +228,8 @@ async def config():
 class ClaimIn(BaseModel):
     address: str
     referrer: Optional[str] = ""
+    tx_hash:  Optional[str] = ""        # on-chain claim tx (BNB sent)
+    bnb_paid: Optional[float] = None    # client-reported BNB sent
 
 @api.post("/claim")
 async def claim(body: ClaimIn):
@@ -175,59 +241,57 @@ async def claim(body: ClaimIn):
     enabled = int(await get_setting("claim_enabled", 1))
     if enabled != 1: raise HTTPException(403, "claim_disabled")
 
-    amount    = float(await get_setting("claim_amount", 10))
-    cooldown  = int(await get_setting("claim_interval_seconds", 86400))
-    ref_bonus = float(await get_setting("referral_bonus", 5))
+    reward_tokens = float(await get_setting("claim_reward_tokens", 2000))
+    cost_usd      = float(await get_setting("claim_cost_usd", 6))
+    lock_days     = int(await get_setting("lock_days", 92))
+    ref_tokens    = float(await get_setting("referral_reward_tokens", 200))
 
-    w = await db.wallets.find_one({"_id": addr})
-    last = w.get("last_claim_at") if w else None
-    last_ts = int(datetime.fromisoformat(last.replace("Z","+00:00")).timestamp()) if isinstance(last, str) and last else 0
-    now_ts = int(now().timestamp())
-    if last_ts and (now_ts - last_ts) < cooldown:
-        return _err_resp(429, "cooldown", {
-            "next_claim_at": iso(datetime.fromtimestamp(last_ts + cooldown, tz=timezone.utc)),
-            "seconds_left":  (last_ts + cooldown) - now_ts,
-        })
+    # one-time-only claim (mirrors contract require(locks[msg.sender].amount==0))
+    existing = await db.claims.find_one({"wallet_address": addr})
+    if existing:
+        return _err_resp(409, "already_claimed", {"claim_id": int(existing.get("_seq", 0))})
 
-    # upsert wallet defaults
-    base = {"total_claimed":0,"total_referrals":0,"total_referral_bonus":0,"pending_balance":0,"credited_balance":0,
+    # upsert wallet
+    base = {"total_claimed":0,"total_referrals":0,"total_referral_bonus":0,
+            "pending_balance":0,"credited_balance":0,
             "last_claim_at": None, "created_at": iso(now())}
-    if not w:
-        await db.wallets.insert_one({"_id": addr, **base})
+    await db.wallets.update_one({"_id": addr}, {"$setOnInsert": base}, upsert=True)
 
-    # record claim doc
+    cid_seq = await _next_seq("claims")
+    unlock_at = int(now().timestamp()) + lock_days * 86400
     claim_doc = {
-        "wallet_address": addr, "amount": amount, "status": "pending",
-        "tx_hash": None, "claimed_at": iso(now()), "credited_at": None,
-        "_seq": await _next_seq("claims"),
+        "_seq": cid_seq, "wallet_address": addr, "amount": reward_tokens,
+        "cost_usd": cost_usd, "bnb_paid": float(body.bnb_paid or 0),
+        "tx_hash": body.tx_hash or None,
+        "status": "pending" if not body.tx_hash else "submitted",
+        "claimed_at": iso(now()), "credited_at": None,
+        "unlock_at": iso(datetime.fromtimestamp(unlock_at, tz=timezone.utc)),
     }
-    r = await db.claims.insert_one(claim_doc)
-    claim_id = claim_doc["_seq"]
+    await db.claims.insert_one(claim_doc)
 
-    # update wallet tallies
     await db.wallets.update_one({"_id": addr}, {
-        "$set": {"last_claim_at": iso(now())},
-        "$inc": {"total_claimed": amount, "pending_balance": amount},
+        "$set": {"last_claim_at": iso(now()), "unlock_at": claim_doc["unlock_at"]},
+        "$inc": {"total_claimed": reward_tokens, "pending_balance": reward_tokens},
     })
 
-    # referral (only on first claim and only if no existing referral for this referee)
+    # referral: one-time per referee, instant 200 HC bonus, no lock
     if ref:
-        already = await db.claims.count_documents({"wallet_address": addr, "_id": {"$ne": r.inserted_id}})
         existing_ref = await db.referrals.find_one({"referee_address": addr})
-        if already == 0 and not existing_ref:
-            await db.wallets.update_one({"_id": ref}, {"$setOnInsert": {**base}}, upsert=True)
+        if not existing_ref:
+            await db.wallets.update_one({"_id": ref}, {"$setOnInsert": base}, upsert=True)
+            rid = await _next_seq("referrals")
             await db.referrals.insert_one({
-                "referrer_address": ref, "referee_address": addr, "bonus_amount": ref_bonus,
-                "status": "pending", "created_at": iso(now()),
-                "_seq": await _next_seq("referrals"),
+                "_seq": rid, "referrer_address": ref, "referee_address": addr,
+                "bonus_amount": ref_tokens, "status": "pending", "created_at": iso(now()),
             })
             await db.wallets.update_one({"_id": ref}, {"$inc": {
-                "total_referrals": 1, "total_referral_bonus": ref_bonus, "pending_balance": ref_bonus,
+                "total_referrals": 1, "total_referral_bonus": ref_tokens, "pending_balance": ref_tokens,
             }})
 
     return {
-        "ok": True, "claim_id": claim_id, "address": addr, "amount": amount, "status": "pending",
-        "next_claim_at": iso(datetime.fromtimestamp(now_ts + cooldown, tz=timezone.utc)),
+        "ok": True, "claim_id": cid_seq, "address": addr,
+        "reward_tokens": reward_tokens, "cost_usd": cost_usd, "lock_days": lock_days,
+        "unlock_at": claim_doc["unlock_at"], "status": claim_doc["status"],
     }
 
 async def _next_seq(coll: str) -> int:
@@ -245,29 +309,28 @@ async def wallet(address: str):
     if not is_addr(address): raise HTTPException(400, "invalid_address")
     addr = norm(address)
     w = await db.wallets.find_one({"_id": addr})
-    cooldown = int(await get_setting("claim_interval_seconds", 86400))
     if not w:
         return {
-            "address": addr, "exists": False, "total_claimed": 0, "total_referrals": 0,
-            "total_referral_bonus": 0, "pending_balance": 0, "credited_balance": 0,
-            "last_claim_at": None, "can_claim_now": True, "next_claim_at": None, "seconds_left": 0,
+            "address": addr, "exists": False, "has_claimed": False,
+            "total_claimed": 0, "total_referrals": 0, "total_referral_bonus": 0,
+            "pending_balance": 0, "credited_balance": 0,
+            "last_claim_at": None, "unlock_at": None, "seconds_until_unlock": 0, "unlocked": False,
         }
-    last = w.get("last_claim_at")
-    last_ts = int(datetime.fromisoformat(last.replace("Z","+00:00")).timestamp()) if isinstance(last, str) and last else 0
+    unlock = w.get("unlock_at")
+    unlock_ts = int(datetime.fromisoformat(unlock.replace("Z","+00:00")).timestamp()) if isinstance(unlock, str) and unlock else 0
     now_ts = int(now().timestamp())
-    can = (not last_ts) or (now_ts - last_ts) >= cooldown
-    next_at = iso(datetime.fromtimestamp(last_ts + cooldown, tz=timezone.utc)) if last_ts else None
+    unlocked = unlock_ts and now_ts >= unlock_ts
     return {
-        "address": addr, "exists": True,
+        "address": addr, "exists": True, "has_claimed": bool(w.get("last_claim_at")),
         "total_claimed":        float(w.get("total_claimed", 0)),
         "total_referrals":      int(w.get("total_referrals", 0)),
         "total_referral_bonus": float(w.get("total_referral_bonus", 0)),
         "pending_balance":      float(w.get("pending_balance", 0)),
         "credited_balance":     float(w.get("credited_balance", 0)),
-        "last_claim_at":        last,
-        "can_claim_now":        can,
-        "next_claim_at":        next_at,
-        "seconds_left":         0 if can else max(0, (last_ts + cooldown) - now_ts),
+        "last_claim_at":        w.get("last_claim_at"),
+        "unlock_at":            unlock,
+        "seconds_until_unlock": max(0, unlock_ts - now_ts) if unlock_ts else 0,
+        "unlocked":             bool(unlocked),
     }
 
 @api.get("/referrals/{address}")
@@ -412,9 +475,21 @@ async def admin_credits(address: str = "", limit: int = 100, offset: int = 0,
     return {"total": total, "limit": limit, "offset": offset, "items": items}
 
 ALLOWED_CONTENT_KEYS = [
-    "hero_title","hero_subtitle","about_title","about_text","footer_note",
-    "claim_amount","claim_interval_seconds","referral_bonus","claim_enabled",
-    "contract_address","marketing_wallet","chain_id","chain_name","rpc_url","explorer_url",
+    # Hero / about / footer / stats
+    "hero_eyebrow","hero_title","hero_subtitle","about_title","about_text","footer_note",
+    "stat_supply","stat_tax","stat_network","stat_seed","whitepaper_url",
+    # Economics
+    "claim_cost_usd","claim_reward_usd","claim_reward_tokens","token_price_usd","lock_days",
+    "referral_reward_tokens","referral_reward_usd","claim_enabled",
+    # Tax
+    "tx_tax_total_pct","tx_tax_reflection_pct","tx_tax_liquidity_pct","tx_tax_ngo_pct",
+    # Chain
+    "contract_address","marketing_wallet","liquidity_wallet","chain_id","chain_name","rpc_url","explorer_url",
+    "pancake_router","chainlink_bnb_usd",
+    # NGO partners
+    "ngo_partner_1_region","ngo_partner_1_title","ngo_partner_1_text",
+    "ngo_partner_2_region","ngo_partner_2_title","ngo_partner_2_text",
+    "ngo_partner_3_region","ngo_partner_3_title","ngo_partner_3_text",
 ]
 
 @api.get("/admin/content")

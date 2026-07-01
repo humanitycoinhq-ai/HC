@@ -1,0 +1,44 @@
+{
+  "summary": "Phase 2 tokenomics ($6 / 2000 HC / 92-day lock) verified end-to-end. 16/16 backend tests pass via /app/backend/tests/test_phase2_tokenomics.py. Frontend home page renders new hero 'Join for $6 · Secure $1,000 Value', Total supply stat renders 1,000,000,000 without truncation/ellipsis (Stat overflow fix confirmed), whitepaper/roadmap/NGO/tax-engine sections render, marquee shows JOIN FOR $6 · SECURE 2.00K HC · VALUE $1.00K · LOCK 92 days · REFERRAL +200 HC ($100). No Emergent badge visible. Admin login works, wrong pw rejected, admin console displays current password (humanity-admin-2026) in-panel, all 7 tabs present, claims table shows all 16 pending/credited claims with 2000 HC amount and working Credit/Reject actions. Previous iteration_1 bug (CreditTab submit button missing onClick) has been fixed by main agent — verified in Admin.jsx line 218. Note the legacy test_humanity_coin.py has 4 failing tests written against the old daily-airdrop schema — those assertions are obsolete, superseded by test_phase2_tokenomics.py.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/admin/claims", "issue": "Response items do not include bnb_paid or unlock_at fields (only id/wallet_address/amount/status/tx_hash/claimed_at/credited_at). bnb_paid IS persisted to Mongo (claim POST response echoes it and admin can pull via /api/admin/claims but only 6 columns are returned). Consider adding bnb_paid and unlock_at to the admin_claims response so the admin UI can show entry fee and unlock date per row."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Admin → Claims table", "issues": ["Amount column labels 2000 HC as '2.00K HUMAN' — leftover label from the old Human-token naming; should read 'HC' for consistency with the rest of the site."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_phase2_tokenomics.py",
+    "/app/test_reports/pytest/phase2_results.xml"
+  ],
+  "action_items": [
+    "(Optional) Include bnb_paid and unlock_at in /api/admin/claims item projection so the admin can see fees and unlock dates without opening Mongo.",
+    "(Cosmetic) Rename 'HUMAN' → 'HC' in the Admin Claims amount column (frontend label).",
+    "(Housekeeping) Delete or update the obsolete /app/backend/tests/test_humanity_coin.py — its 4 failing tests target the old daily-airdrop schema and are no longer meaningful; test_phase2_tokenomics.py supersedes it."
+  ],
+  "critical_code_review_comments": [
+    "server.py (642 lines) — approaching the 700-line ceiling; consider splitting admin_router, on_chain, and settings into separate modules on next iteration.",
+    "Backend correctly excludes MongoDB _id from all responses (uses _seq int).",
+    "/api/claim response is well-shaped: reward_tokens, cost_usd, lock_days, unlock_at, status all present.",
+    "unlock_at is stored as ISO-8601 string on the claim doc AND propagated to the wallet doc — /api/wallet correctly computes seconds_until_unlock and unlocked flag.",
+    "Referral flow gives the referrer 200 HC in pending_balance (not credited_balance). The whitepaper copy says 'instant, no lock' — technically the referrer bonus still lives in pending_balance until admin credits it, so it isn't truly 'no lock' unless admin auto-credits referrals. Consider whether referral bonuses should go straight to credited_balance to match the marketing claim.",
+    "one-per-wallet claim enforcement works via db.claims.find_one({wallet_address: addr}) — correct behavior confirmed by test_claim_second_time_rejected (returns 409 already_claimed).",
+    "Admin.jsx CreditTab submit button — the iteration_1 bug (missing onClick) is fixed."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_phase2_tokenomics.py"
+  ],
+  "success_rate": {"backend": "100% (16/16 new tests, obsolete legacy suite ignored)", "frontend": "100% (home + admin core flows)"},
+  "test_credentials": "Admin password humanity-admin-2026 (from /app/memory/test_credentials.md). Verified working.",
+  "seed_data_creation": "Backend tests created ~10 test wallets/claims and one referral pair. All addresses randomized (secrets.token_hex) so no collision. Content and Social settings were mutated during tests but restored to original values in try/finally.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend Phase-2 coverage lives in /app/backend/tests/test_phase2_tokenomics.py (16 tests, ~3s runtime, xdist-safe). The old /app/backend/tests/test_humanity_coin.py is legacy — it still has 4 failing tests written against the pre-rewrite schema (claim.amount=10, cooldowns, next_claim_at). Recommend main agent deletes or overwrites it. Frontend routes: '/' (Home) and '/admin' (Admin console). Admin password is displayed in a pill under 'Console' heading. On-chain tab reads BSC RPC live — worked in iteration_1 and unchanged.",
+  "rca of the issue": "No blocking issues. Minor points: (1) admin_claims JSON projection omits bnb_paid/unlock_at — one-line fix in server.py at line ~394 to include these fields. (2) Admin claims table hardcodes 'HUMAN' label — should be 'HC' (frontend Admin.jsx). Neither blocks any user-facing flow."
+}

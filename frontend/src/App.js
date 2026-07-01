@@ -7,16 +7,17 @@ import { TID } from "@/constants/testIds";
 import { Toaster, toast } from "sonner";
 import Home from "@/components/Home";
 import Admin from "@/components/Admin";
-import { CoinMark } from "@/components/Icons";
 
 function Header({ account, onConnect, social }) {
     return (
         <header className="relative z-10 flex items-center justify-between px-6 md:px-10 py-5 border-b border-white/[0.05]">
             <Link to="/" data-testid={TID.headerLogo} className="flex items-center gap-3 group">
-                <CoinMark size={36} className="coin" />
+                <img src="/img/hc-coin.png" alt="HC" width={40} height={40}
+                     className="coin object-contain"
+                     style={{ animationDuration: "22s" }} />
                 <div className="leading-tight">
                     <div className="font-display text-[19px] md:text-[22px] font-black tracking-tight">Humanity Coin</div>
-                    <div className="font-mono text-[10px] text-[var(--hc-text-mute)] uppercase tracking-[0.18em]">$HUMAN · BEP-20</div>
+                    <div className="font-mono text-[10px] text-[var(--hc-text-mute)] uppercase tracking-[0.18em]">$HC · BEP-20 · BSC</div>
                 </div>
             </Link>
             <div className="flex items-center gap-2 md:gap-3">
@@ -43,8 +44,8 @@ function Footer({ cfg }) {
         <footer className="relative z-10 mt-24 border-t border-white/[0.05]">
             <div className="max-w-6xl mx-auto px-6 md:px-10 py-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex items-center gap-3">
-                    <CoinMark size={28} />
-                    <div className="text-sm text-[var(--hc-text-dim)]">{cfg?.content?.footer_note || "Humanity Coin · Community-driven BEP-20."}</div>
+                    <img src="/img/hc-coin.png" alt="HC" width={32} height={32} className="object-contain" />
+                    <div className="text-sm text-[var(--hc-text-dim)]">{cfg?.content?.footer_note || "Humanity Coin · BEP-20 · BSC"}</div>
                 </div>
                 <div className="flex items-center gap-3">
                     <SocialLink testid={TID.socialFacebook}  href={s.facebook}  label="Facebook"  path={<path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.16 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.51 1.49-3.9 3.78-3.9 1.1 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.78 8.44-4.94 8.44-9.94Z"/>}/>

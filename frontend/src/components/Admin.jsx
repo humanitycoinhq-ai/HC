@@ -60,6 +60,12 @@ function Dashboard({ onLogout }) {
                 <div>
                     <div className="hc-pill">Admin</div>
                     <h1 className="font-display text-3xl md:text-4xl font-black mt-3">Console</h1>
+                    <div data-testid="admin-password-notice"
+                         className="mt-3 inline-flex items-center gap-2 text-[11.5px] font-mono text-[var(--hc-gold-hi)] bg-[rgba(232,185,0,0.08)] border border-[var(--hc-line)] rounded-full px-3 py-1.5">
+                        <span className="text-[var(--hc-text-mute)]">CURRENT ADMIN PASSWORD ·</span>
+                        <code className="text-[var(--hc-gold-hi)]">humanity-admin-2026</code>
+                        <span className="text-[var(--hc-text-mute)]">· change via re-install</span>
+                    </div>
                 </div>
                 <button data-testid={TID.adminLogoutBtn} className="hc-btn-ghost" onClick={onLogout}>Sign out</button>
             </div>
@@ -248,9 +254,11 @@ function ContentTab() {
     const save = async () => {
         setBusy(true);
         try {
-            // numeric coercion
             const payload = { ...data };
-            ["claim_amount","claim_interval_seconds","referral_bonus","chain_id"].forEach(k => { if (payload[k] !== undefined) payload[k] = Number(payload[k]); });
+            ["claim_cost_usd","claim_reward_usd","claim_reward_tokens","token_price_usd","lock_days",
+             "referral_reward_tokens","referral_reward_usd","chain_id",
+             "tx_tax_total_pct","tx_tax_reflection_pct","tx_tax_liquidity_pct","tx_tax_ngo_pct"
+            ].forEach(k => { if (payload[k] !== undefined && payload[k] !== "") payload[k] = Number(payload[k]); });
             payload.claim_enabled = data.claim_enabled === "1" || data.claim_enabled === 1 || data.claim_enabled === true ? "1" : "0";
             await api.adminContentSet(payload);
             toast.success("Saved");
@@ -267,32 +275,85 @@ function ContentTab() {
         </div>
     );
     return (
-        <div className="grid lg:grid-cols-2 gap-5">
-            <div className="hc-card p-6">
-                <h3 className="font-display text-2xl font-black mb-5">Site copy</h3>
-                <div className="space-y-4">
-                    <Field label="Hero title"     k="hero_title"/>
-                    <Field label="Hero subtitle"  k="hero_subtitle" textarea/>
-                    <Field label="About title"    k="about_title"/>
-                    <Field label="About text"     k="about_text" textarea/>
-                    <Field label="Footer note"    k="footer_note"/>
+        <div className="space-y-5">
+            <div className="grid lg:grid-cols-2 gap-5">
+                <div className="hc-card p-6">
+                    <h3 className="font-display text-2xl font-black mb-5">Site copy</h3>
+                    <div className="space-y-4">
+                        <Field label="Hero eyebrow"   k="hero_eyebrow" hint="Small label above the hero title"/>
+                        <Field label="Hero title"     k="hero_title"/>
+                        <Field label="Hero subtitle"  k="hero_subtitle" textarea/>
+                        <Field label="About title"    k="about_title"/>
+                        <Field label="About text"     k="about_text" textarea/>
+                        <Field label="Footer note"    k="footer_note"/>
+                        <Field label="Whitepaper URL" k="whitepaper_url" mono hint="Public path or full URL"/>
+                    </div>
+                </div>
+                <div className="hc-card p-6">
+                    <h3 className="font-display text-2xl font-black mb-5">Hero stats row</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Field label="Total supply" k="stat_supply"/>
+                        <Field label="Tx tax"       k="stat_tax"/>
+                        <Field label="Network"      k="stat_network"/>
+                        <Field label="Seed raised"  k="stat_seed"/>
+                    </div>
+                    <h3 className="font-display text-2xl font-black mt-8 mb-5">Token & claim economics</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Field label="Token price (USD)"      k="token_price_usd"      type="number"/>
+                        <Field label="Claim cost (USD)"       k="claim_cost_usd"       type="number"/>
+                        <Field label="Claim reward (USD)"     k="claim_reward_usd"     type="number"/>
+                        <Field label="Claim reward (HC)"      k="claim_reward_tokens"  type="number"/>
+                        <Field label="Lock days"              k="lock_days"            type="number"/>
+                        <Field label="Referral reward (HC)"   k="referral_reward_tokens" type="number"/>
+                        <Field label="Referral reward (USD)"  k="referral_reward_usd"  type="number"/>
+                        <Field label="Claim enabled (0/1)"    k="claim_enabled"/>
+                    </div>
+                    <h3 className="font-display text-2xl font-black mt-8 mb-5">10% transaction engine</h3>
+                    <div className="grid grid-cols-4 gap-4">
+                        <Field label="Total %"     k="tx_tax_total_pct"      type="number"/>
+                        <Field label="Reflect %"   k="tx_tax_reflection_pct" type="number"/>
+                        <Field label="Liquidity %" k="tx_tax_liquidity_pct"  type="number"/>
+                        <Field label="NGO %"       k="tx_tax_ngo_pct"        type="number"/>
+                    </div>
                 </div>
             </div>
-            <div className="hc-card p-6">
-                <h3 className="font-display text-2xl font-black mb-5">Token & claim</h3>
-                <div className="grid grid-cols-2 gap-4">
-                    <Field label="Claim amount"        k="claim_amount" type="number" hint="HUMAN per claim"/>
-                    <Field label="Interval (seconds)"  k="claim_interval_seconds" type="number" hint="86400 = 24h"/>
-                    <Field label="Referral bonus"      k="referral_bonus" type="number"/>
-                    <Field label="Claim enabled"       k="claim_enabled" hint='"1" to enable, "0" to disable'/>
-                    <Field label="Chain ID"            k="chain_id" type="number"/>
-                    <Field label="Chain name"          k="chain_name"/>
-                    <Field label="RPC URL"             k="rpc_url" mono/>
-                    <Field label="Explorer URL"        k="explorer_url" mono/>
-                    <Field label="Contract address"    k="contract_address" mono/>
-                    <Field label="Marketing wallet"    k="marketing_wallet" mono/>
+
+            <div className="grid lg:grid-cols-2 gap-5">
+                <div className="hc-card p-6">
+                    <h3 className="font-display text-2xl font-black mb-5">Chain configuration</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Field label="Chain ID"            k="chain_id" type="number"/>
+                        <Field label="Chain name"          k="chain_name"/>
+                        <Field label="RPC URL"             k="rpc_url" mono/>
+                        <Field label="Explorer URL"        k="explorer_url" mono/>
+                        <Field label="Contract address"    k="contract_address" mono/>
+                        <Field label="Marketing wallet"    k="marketing_wallet" mono/>
+                        <Field label="Liquidity wallet"    k="liquidity_wallet" mono/>
+                        <Field label="PancakeSwap router"  k="pancake_router" mono/>
+                        <Field label="Chainlink BNB/USD"   k="chainlink_bnb_usd" mono/>
+                    </div>
                 </div>
-                <button data-testid={TID.adminContentSave} className="hc-btn mt-6" disabled={busy} onClick={save}>{busy ? "Saving…" : "Save changes"}</button>
+                <div className="hc-card p-6">
+                    <h3 className="font-display text-2xl font-black mb-5">NGO partner cards (whitepaper §13)</h3>
+                    {[1,2,3].map(i => (
+                        <div key={i} className="mb-5 last:mb-0 rounded-xl border border-white/[0.06] p-4">
+                            <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--hc-gold-hi)] mb-3">Partner {i}</div>
+                            <div className="grid grid-cols-3 gap-3">
+                                <Field label="Region label" k={`ngo_partner_${i}_region`} hint="AFRICA / SE ASIA / LATAM"/>
+                                <div className="col-span-2">
+                                    <Field label="Title" k={`ngo_partner_${i}_title`}/>
+                                </div>
+                            </div>
+                            <div className="mt-3">
+                                <Field label="Description" k={`ngo_partner_${i}_text`} textarea/>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div>
+                <button data-testid={TID.adminContentSave} className="hc-btn" disabled={busy} onClick={save}>{busy ? "Saving…" : "Save all content"}</button>
             </div>
         </div>
     );
