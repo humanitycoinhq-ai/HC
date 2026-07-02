@@ -202,6 +202,15 @@ contract HumanityCoin is IERC20 {
         // allow 2% slippage on the oracle price
         require(msg.value >= (required * 98) / 100, "Insufficient BNB (need ~$6)");
 
+        // ⚡ Reentrancy fix (2026-07): set the lock BEFORE any external call, so a malicious
+        // marketingWallet / liquidityWallet / router cannot re-enter claim() and mint twice.
+        uint256 amount = CLAIM_REWARD_TOKENS;
+        locks[msg.sender] = Lock({
+            amount:   amount,
+            unlockAt: block.timestamp + LOCK_DURATION,
+            claimed:  true
+        });
+
         // Split BNB 50/50: $3 marketing + $3 liquidity
         uint256 half       = msg.value / 2;
         uint256 lpBnbHalf  = msg.value - half;
@@ -218,17 +227,11 @@ contract HumanityCoin is IERC20 {
             require(ok2, "Liquidity transfer failed");
         }
 
-        // Transfer 2,000 HC to user and create the 92-day lock
-        uint256 amount = CLAIM_REWARD_TOKENS;
+        // Transfer 2,000 HC to user (lock already recorded above)
         _balances[address(this)] -= amount;
         _balances[msg.sender]    += amount;
         emit Transfer(address(this), msg.sender, amount);
 
-        locks[msg.sender] = Lock({
-            amount:   amount,
-            unlockAt: block.timestamp + LOCK_DURATION,
-            claimed:  true
-        });
         emit Claimed(msg.sender, msg.value, amount, block.timestamp + LOCK_DURATION);
 
         // Referral payout — instant 200 HC, no lock

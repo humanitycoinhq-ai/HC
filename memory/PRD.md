@@ -69,7 +69,28 @@ Rebuild Humanity Coin as a PHP 8 + MySQL + React stack for FTP-upload deployment
 - CONTRACT_REVIEW.md finalized and bundled into ZIP under /contracts/
 - Confirmed for user: ZIP is portable — works on DirectAdmin shared hosting AND AWS EC2 (Apache/Nginx + PHP8 + MySQL, point A record to Elastic IP)
 
-## Session update (2026-07-02)
+## Session update (2026-07-02) — Referral Leaderboard
 - Added live Referral Leaderboard: GET /api/leaderboard (top 10 referrers by count+bonus, total_referrers) in BOTH server.py and dist PHP (leaderboard.php + route in api/index.php)
 - Home.jsx: new "Top ambassadors, live" section (data-testid="leaderboard-section", rows leaderboard-row-{rank}) between claim model and tax sections; hidden when no referrals exist
 - ZIP repackaged with leaderboard included; verified API via curl (3 referrers returned) and screenshot
+
+## Session update (2026-07-02, later) — User Dashboard + Contract fix
+- **New route `/dashboard`** (`frontend/src/components/Dashboard.jsx`, 400+ LOC)
+  - Wallet-gated (uses existing `window.ethereum` connect flow)
+  - Live 92-day lock countdown (days/hours/mins/secs) + progress bar + unlock date
+  - "Notify me when unlocked" email form → `POST /api/wallet/{addr}/notify` (stores intent in `unlock_notifications` collection; delivery deferred to future worker)
+  - PancakeSwap deep-links `HC → BNB` and `HC → USDT` (disabled until unlock; USDT hard-coded to BSC `0x55d3…7955`)
+  - Referral center: share link + QR (`qrcode.react`), leaderboard rank pill, referee table
+  - Transaction history table: unified feed of claims + admin credits + referrals earned as referrer, with tx hash → bscscan link and BNB/USD cost line on claims
+  - Header now shows a "Dashboard" link when a wallet is connected
+- **Backend endpoints (server.py)**
+  - `GET /api/wallet/{address}` extended: `lock_progress_pct`, `lock_days_total`, `claim_tx_hash`, `claim_bnb_paid`, `claim_cost_usd`, `claim_status`, `claimed_at`, `leaderboard_rank`
+  - `GET /api/wallet/{address}/history` — merged desc-sorted timeline (claim / credit / referral)
+  - `POST /api/wallet/{address}/notify` — email validation + upsert into `unlock_notifications` (unique index on wallet+email)
+- **Contract fix** (`contracts/HumanityCoin.sol`)
+  - Applied 1-line reentrancy fix: `locks[msg.sender] = Lock({...})` now set immediately after the `require`, before any external call. `CONTRACT_REVIEW.md` updated accordingly.
+- **Deps**: `qrcode.react@4.2.0`
+- **Deferred to next iteration** (per user selections 3d / 4a / 5-yes / 6b):
+  - Actual email delivery for unlock notifications (currently endpoint only persists intent → MOCKED DELIVERY)
+  - PHP mirror of new endpoints — the `/app/dist/humanity-coin/` payload is not present in this pod; will be rebuilt during EC2 deployment prep
+  - `deploy-ec2.sh` script + rebuilt ZIP

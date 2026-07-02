@@ -2,6 +2,7 @@ export const TID = {
     // header
     headerLogo:         "header-logo",
     headerAdminLink:    "header-admin-link",
+    headerDashLink:     "header-dashboard-link",
     headerConnect:      "header-connect-wallet-btn",
     headerWalletPill:   "header-wallet-pill",
 
@@ -62,4 +63,29 @@ export const TID = {
     adminSocialSave:    "admin-social-save-btn",
     adminSocialField:   (k) => `admin-social-${k}`,
     adminOnchainRefresh:"admin-onchain-refresh-btn",
+
+    // dashboard
+    dashConnectPrompt:  "dash-connect-prompt",
+    dashConnectBtn:     "dash-connect-btn",
+    dashHeader:         "dash-header",
+    dashBalanceTotal:   "dash-balance-total",
+    dashBalanceCred:    "dash-balance-credited",
+    dashBalancePending: "dash-balance-pending",
+    dashLockCard:       "dash-lock-card",
+    dashLockCountdown:  "dash-lock-countdown",
+    dashLockProgress:   "dash-lock-progress",
+    dashLockUnlockDate: "dash-lock-unlock-date",
+    dashNotifyEmail:    "dash-notify-email-input",
+    dashNotifySubmit:   "dash-notify-submit-btn",
+    dashSwapCard:       "dash-swap-card",
+    dashSwapBtnBnb:     "dash-swap-bnb-btn",
+    dashSwapBtnUsdt:    "dash-swap-usdt-btn",
+    dashRefCard:        "dash-ref-card",
+    dashRefLink:        "dash-ref-link-input",
+    dashRefCopy:        "dash-ref-copy-btn",
+    dashRefQr:          "dash-ref-qr",
+    dashRefRank:        "dash-ref-rank",
+    dashRefRow:         (i) => `dash-ref-row-${i}`,
+    dashHistoryTable:   "dash-history-table",
+    dashHistoryRow:     (i) => `dash-history-row-${i}`,
 };

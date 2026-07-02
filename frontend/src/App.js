@@ -7,6 +7,7 @@ import { TID } from "@/constants/testIds";
 import { Toaster, toast } from "sonner";
 import Home from "@/components/Home";
 import Admin from "@/components/Admin";
+import Dashboard from "@/components/Dashboard";
 
 function Header({ account, onConnect, social }) {
     return (
@@ -21,6 +22,9 @@ function Header({ account, onConnect, social }) {
                 </div>
             </Link>
             <div className="flex items-center gap-2 md:gap-3">
+                {account && (
+                    <Link to="/dashboard" data-testid={TID.headerDashLink} className="hidden md:inline-flex hc-btn-ghost !py-2 !px-4 !text-[12.5px]">Dashboard</Link>
+                )}
                 <Link to="/admin" data-testid={TID.headerAdminLink} className="hidden md:inline-flex hc-btn-ghost !py-2 !px-4 !text-[12.5px]">Admin</Link>
                 {account
                     ? <div data-testid={TID.headerWalletPill} className="hc-pill !text-[11px]">● {shorten(account)}</div>
@@ -116,13 +120,22 @@ function AdminRoute() {
     );
 }
 
+function DashboardRoute() {
+    return (
+        <Shell>
+            {(ctx) => <Dashboard {...ctx} />}
+        </Shell>
+    );
+}
+
 export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/"      element={<HomeRoute />} />
-                <Route path="/admin" element={<AdminRoute />} />
-                <Route path="*"      element={<HomeRoute />} />
+                <Route path="/"          element={<HomeRoute />} />
+                <Route path="/dashboard" element={<DashboardRoute />} />
+                <Route path="/admin"     element={<AdminRoute />} />
+                <Route path="*"          element={<HomeRoute />} />
             </Routes>
         </BrowserRouter>
     );

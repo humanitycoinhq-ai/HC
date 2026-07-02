@@ -23,6 +23,8 @@ export const api = {
     config:     ()                    => http.get("/config").then(r => r.data),
     claim:      (address, referrer)   => http.post("/claim", { address, referrer }).then(r => r.data),
     wallet:     (address)             => http.get(`/wallet/${address}`).then(r => r.data),
+    walletHistory: (address, limit=100)=> http.get(`/wallet/${address}/history`, { params: { limit } }).then(r => r.data),
+    walletNotify:  (address, email)   => http.post(`/wallet/${address}/notify`, { email }).then(r => r.data),
     referrals:  (address)             => http.get(`/referrals/${address}`).then(r => r.data),
     stats:      ()                    => http.get("/stats").then(r => r.data),
     leaderboard:()                    => http.get("/leaderboard").then(r => r.data),

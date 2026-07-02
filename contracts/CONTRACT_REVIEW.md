@@ -27,11 +27,7 @@ The contract you provided is **internally consistent and safe for a $6 paid-clai
 | §11 DAO Governance | Governor Alpha + 48h timelock + 67% supermajority | Not in this contract | Add `GovernorAlpha` + `TimelockController` (OpenZeppelin) in a second contract. |
 
 ## 🔒 Security observations
-1. **Reentrancy** — `claim()` performs external calls (`marketingWallet.call`, `pancakeRouter.addLiquidityETH`, `liquidityWallet.call`) *before* setting `locks[msg.sender]`. Because the `claim()` entry-guard is `require(locks[msg.sender].amount == 0)`, an attacker re-entering `claim()` from a malicious `marketingWallet` could mint multiple times. **Recommended fix**: set the lock immediately after the `require`, before any external call, or add an OpenZeppelin `ReentrancyGuard`. One-line fix:
-   ```solidity
-   // Before _autoAddLiquidity / external calls:
-   locks[msg.sender] = Lock({amount: amount, unlockAt: block.timestamp + LOCK_DURATION, claimed: true});
-   ```
+1. **Reentrancy** — ~~`claim()` performs external calls (`marketingWallet.call`, `pancakeRouter.addLiquidityETH`, `liquidityWallet.call`) *before* setting `locks[msg.sender]`.~~ **✅ Fixed 2026-07:** `locks[msg.sender]` is now set immediately after the `require(locks[msg.sender].amount == 0)` guard and *before* any external call. A malicious `marketingWallet` calling back into `claim()` will hit the `require` and revert. Verify in `HumanityCoin.sol` around line 205.
 2. **Slippage check** — `addLiquidityETH(... 0, 0, ...)` accepts unlimited slippage. Acceptable when LP is empty/new, but front-runnable once a pool exists. Once pool depth > $5k, switch the mins to a non-zero floor.
 3. **Owner is single EOA** — `onlyOwner` controls wallet rotation, oracle, router, and `addLiquidityManual`. Move ownership to a 3-of-5 Gnosis Safe before mainnet.
 4. **No pause** — there is no `pause()` for emergencies. Add OpenZeppelin `Pausable` if regulators ever knock.

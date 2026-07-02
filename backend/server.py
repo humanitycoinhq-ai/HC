@@ -309,17 +309,54 @@ async def wallet(address: str):
     if not is_addr(address): raise HTTPException(400, "invalid_address")
     addr = norm(address)
     w = await db.wallets.find_one({"_id": addr})
+    lock_days = int(await get_setting("lock_days", 92))
     if not w:
         return {
             "address": addr, "exists": False, "has_claimed": False,
             "total_claimed": 0, "total_referrals": 0, "total_referral_bonus": 0,
             "pending_balance": 0, "credited_balance": 0,
             "last_claim_at": None, "unlock_at": None, "seconds_until_unlock": 0, "unlocked": False,
+            "lock_progress_pct": 0, "lock_days_total": lock_days,
+            "claim_tx_hash": None, "claim_bnb_paid": 0, "claim_cost_usd": 0,
+            "claim_status": None, "leaderboard_rank": None,
         }
     unlock = w.get("unlock_at")
     unlock_ts = int(datetime.fromisoformat(unlock.replace("Z","+00:00")).timestamp()) if isinstance(unlock, str) and unlock else 0
     now_ts = int(now().timestamp())
     unlocked = unlock_ts and now_ts >= unlock_ts
+
+    # Compute lock progress % (elapsed of lock_days)
+    lock_total_secs = lock_days * 86400
+    progress = 0
+    if unlock_ts and lock_total_secs > 0:
+        # elapsed = total - remaining
+        remaining = max(0, unlock_ts - now_ts)
+        elapsed = max(0, lock_total_secs - remaining)
+        progress = min(100, int(elapsed * 100 / lock_total_secs))
+        if unlocked: progress = 100
+
+    # Look up the claim record for tx_hash + bnb_paid + status
+    claim = await db.claims.find_one({"wallet_address": addr}, sort=[("_seq", -1)])
+    claim_tx = claim.get("tx_hash") if claim else None
+    claim_bnb = float(claim.get("bnb_paid") or 0) if claim else 0
+    claim_cost = float(claim.get("cost_usd") or 0) if claim else 0
+    claim_status = claim.get("status") if claim else None
+
+    # Leaderboard rank (by referral count then bonus_total)
+    rank = None
+    ref_count = int(w.get("total_referrals", 0))
+    if ref_count > 0:
+        pipeline = [
+            {"$group": {"_id": "$referrer_address", "referrals": {"$sum": 1}, "bonus_total": {"$sum": "$bonus_amount"}}},
+            {"$sort": {"referrals": -1, "bonus_total": -1}},
+        ]
+        r_idx = 0
+        async for row in db.referrals.aggregate(pipeline):
+            r_idx += 1
+            if row["_id"] == addr:
+                rank = r_idx
+                break
+
     return {
         "address": addr, "exists": True, "has_claimed": bool(w.get("last_claim_at")),
         "total_claimed":        float(w.get("total_claimed", 0)),
@@ -331,7 +368,96 @@ async def wallet(address: str):
         "unlock_at":            unlock,
         "seconds_until_unlock": max(0, unlock_ts - now_ts) if unlock_ts else 0,
         "unlocked":             bool(unlocked),
+        "lock_progress_pct":    progress,
+        "lock_days_total":      lock_days,
+        "claim_tx_hash":        claim_tx,
+        "claim_bnb_paid":       claim_bnb,
+        "claim_cost_usd":       claim_cost,
+        "claim_status":         claim_status,
+        "claimed_at":           claim.get("claimed_at") if claim else None,
+        "leaderboard_rank":     rank,
     }
+
+@api.get("/wallet/{address}/history")
+async def wallet_history(address: str, limit: int = 100):
+    """Merged transaction history: claims + admin credits + referral bonuses earned as referrer."""
+    if not is_addr(address): raise HTTPException(400, "invalid_address")
+    addr = norm(address)
+    limit = max(1, min(500, limit))
+    items: list[dict] = []
+
+    # Claims made by this wallet
+    async for c in db.claims.find({"wallet_address": addr}).sort("_seq", -1).limit(limit):
+        items.append({
+            "type": "claim",
+            "label": "Claim",
+            "amount": float(c.get("amount", 0)),
+            "status": c.get("status", "pending"),
+            "tx_hash": c.get("tx_hash"),
+            "created_at": c.get("claimed_at"),
+            "credited_at": c.get("credited_at"),
+            "unlock_at": c.get("unlock_at"),
+            "bnb_paid": float(c.get("bnb_paid") or 0),
+            "cost_usd": float(c.get("cost_usd") or 0),
+            "id": int(c.get("_seq", 0)),
+        })
+
+    # Admin credits (manual off-chain distributions to this wallet)
+    async for cr in db.credits.find({"wallet_address": addr}).sort("_seq", -1).limit(limit):
+        items.append({
+            "type": "credit",
+            "label": "Admin credit",
+            "amount": float(cr.get("amount", 0)),
+            "status": "credited",
+            "tx_hash": cr.get("tx_hash"),
+            "created_at": cr.get("created_at"),
+            "note": cr.get("note"),
+            "id": int(cr.get("_seq", 0)),
+        })
+
+    # Referral bonuses this address earned (as the referrer)
+    async for r in db.referrals.find({"referrer_address": addr}).sort("_seq", -1).limit(limit):
+        items.append({
+            "type": "referral",
+            "label": "Referral bonus",
+            "amount": float(r.get("bonus_amount", 0)),
+            "status": r.get("status", "pending"),
+            "tx_hash": None,
+            "created_at": r.get("created_at"),
+            "referee_address": r.get("referee_address"),
+            "id": int(r.get("_seq", 0)),
+        })
+
+    # Sort by created_at desc (ISO strings sort lexicographically correctly for Z-terminated UTC)
+    items.sort(key=lambda x: x.get("created_at") or "", reverse=True)
+    items = items[:limit]
+    return {"address": addr, "count": len(items), "items": items}
+
+class NotifyIn(BaseModel):
+    email: str
+
+_EMAIL_RX = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
+@api.post("/wallet/{address}/notify")
+async def wallet_notify_unlock(address: str, body: NotifyIn):
+    """Register an email to be notified when this wallet's lock expires.
+    Delivery is deferred to a future worker; this endpoint only persists intent."""
+    if not is_addr(address): raise HTTPException(400, "invalid_address")
+    if not body.email or not _EMAIL_RX.match(body.email.strip()):
+        raise HTTPException(400, "invalid_email")
+    addr = norm(address)
+    email = body.email.strip().lower()
+    w = await db.wallets.find_one({"_id": addr})
+    unlock_at = w.get("unlock_at") if w else None
+    await db.unlock_notifications.update_one(
+        {"wallet_address": addr, "email": email},
+        {"$set": {
+            "wallet_address": addr, "email": email,
+            "unlock_at": unlock_at, "created_at": iso(now()), "notified_at": None,
+        }},
+        upsert=True,
+    )
+    return {"ok": True, "address": addr, "email": email, "unlock_at": unlock_at}
 
 @api.get("/referrals/{address}")
 async def referrals(address: str):
@@ -642,6 +768,8 @@ async def _startup():
     await db.referrals.create_index("referrer_address")
     await db.referrals.create_index("referee_address", unique=True)
     await db.credits.create_index([("_seq", -1)])
+    await db.unlock_notifications.create_index([("wallet_address", 1), ("email", 1)], unique=True)
+    await db.unlock_notifications.create_index("unlock_at")
     await ensure_seed()
     logger.info("Humanity Coin API ready · marketing=%s", MARKETING_WALLET)
 
