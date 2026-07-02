@@ -67,12 +67,13 @@ function Marquee({ items }) {
 export default function Home({ cfg, account, onConnect, initialReferrer }) {
     const [wallet, setWallet]     = useState(null);
     const [stats, setStats]       = useState(null);
+    const [board, setBoard]       = useState(null);
     const [refs, setRefs]         = useState({ items: [], total_bonus: 0, count: 0 });
     const [claiming, setClaiming] = useState(false);
     const [secondsLeft, setSecondsLeft] = useState(0);
     const tickRef = useRef(null);
 
-    useEffect(() => { api.stats().then(setStats).catch(()=>{}); }, []);
+    useEffect(() => { api.stats().then(setStats).catch(()=>{}); api.leaderboard().then(setBoard).catch(()=>{}); }, []);
 
     const refreshWallet = async () => {
         if (!account) { setWallet(null); setRefs({items:[],total_bonus:0,count:0}); return; }
@@ -292,6 +293,41 @@ export default function Home({ cfg, account, onConnect, initialReferrer }) {
                     ))}
                 </div>
             </section>
+
+            {/* REFERRAL LEADERBOARD */}
+            {board?.items?.length > 0 && (
+                <section id="leaderboard" className="px-6 md:px-10 py-12 max-w-6xl mx-auto" data-testid="leaderboard-section">
+                    <div className="hc-pill">Referral Leaderboard</div>
+                    <div className="flex flex-wrap items-end justify-between gap-4 mt-4">
+                        <h2 className="font-display text-3xl md:text-5xl font-black max-w-2xl leading-[1.05]">
+                            Top <span className="text-[var(--hc-gold-hi)]">ambassadors</span>, live.
+                        </h2>
+                        <div className="font-mono text-[11px] text-[var(--hc-text-mute)] uppercase tracking-[0.16em]">
+                            {board.total_referrers} referrers · +{fmtAmount(refBonus, 0)} HC per claim
+                        </div>
+                    </div>
+                    <div className="hc-card mt-8 overflow-hidden">
+                        <div className="overflow-x-auto">
+                            <table className="hc-table">
+                                <thead><tr><th>Rank</th><th>Wallet</th><th>Referrals</th><th>HC Earned</th></tr></thead>
+                                <tbody>
+                                    {board.items.map((r) => (
+                                        <tr key={r.rank} data-testid={`leaderboard-row-${r.rank}`}>
+                                            <td className={`font-mono font-bold ${r.rank <= 3 ? "text-[var(--hc-gold-hi)]" : "text-[var(--hc-text-dim)]"}`}>#{r.rank}</td>
+                                            <td className="font-mono">{shorten(r.address, 8)}</td>
+                                            <td>{r.referrals}</td>
+                                            <td className="text-[var(--hc-mint)]">+{fmtAmount(r.bonus_total, 0)} HC</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="px-6 py-4 border-t border-white/[0.05] text-[13px] text-[var(--hc-text-dim)]">
+                            Share your referral link after claiming — each new wallet you bring earns you <span className="text-[var(--hc-gold-hi)] font-semibold">+{fmtAmount(refBonus, 0)} HC (${refBonusUsd})</span>, instantly and with no lock.
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* 10% TX TAX */}
             <section className="px-6 md:px-10 py-12 max-w-6xl mx-auto">

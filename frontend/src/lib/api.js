@@ -25,6 +25,7 @@ export const api = {
     wallet:     (address)             => http.get(`/wallet/${address}`).then(r => r.data),
     referrals:  (address)             => http.get(`/referrals/${address}`).then(r => r.data),
     stats:      ()                    => http.get("/stats").then(r => r.data),
+    leaderboard:()                    => http.get("/leaderboard").then(r => r.data),
 
     adminLogin:    (password)         => http.post("/admin/login", { password }).then(r => r.data),
     adminClaims:   (params)           => http.get("/admin/claims", { params }).then(r => r.data),

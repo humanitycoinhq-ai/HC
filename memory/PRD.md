@@ -68,3 +68,8 @@ Rebuild Humanity Coin as a PHP 8 + MySQL + React stack for FTP-upload deployment
 - Testing: iteration_2.json — 16/16 backend tests pass, frontend home + admin flows 100%
 - CONTRACT_REVIEW.md finalized and bundled into ZIP under /contracts/
 - Confirmed for user: ZIP is portable — works on DirectAdmin shared hosting AND AWS EC2 (Apache/Nginx + PHP8 + MySQL, point A record to Elastic IP)
+
+## Session update (2026-07-02)
+- Added live Referral Leaderboard: GET /api/leaderboard (top 10 referrers by count+bonus, total_referrers) in BOTH server.py and dist PHP (leaderboard.php + route in api/index.php)
+- Home.jsx: new "Top ambassadors, live" section (data-testid="leaderboard-section", rows leaderboard-row-{rank}) between claim model and tax sections; hidden when no referrals exist
+- ZIP repackaged with leaderboard included; verified API via curl (3 referrers returned) and screenshot

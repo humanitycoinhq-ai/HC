@@ -349,6 +349,22 @@ async def referrals(address: str):
         if r["status"] == "credited": paid += float(r["bonus_amount"])
     return {"address": addr, "count": len(items), "total_bonus": total, "credited_bonus": paid, "items": items}
 
+@api.get("/leaderboard")
+async def leaderboard(limit: int = 10):
+    limit = max(1, min(50, limit))
+    cursor = db.referrals.aggregate([
+        {"$group": {"_id": "$referrer_address", "referrals": {"$sum": 1}, "bonus_total": {"$sum": "$bonus_amount"}}},
+        {"$sort": {"referrals": -1, "bonus_total": -1}},
+        {"$limit": limit},
+    ])
+    items = []
+    rank = 1
+    async for r in cursor:
+        items.append({"rank": rank, "address": r["_id"], "referrals": int(r["referrals"]), "bonus_total": float(r["bonus_total"])})
+        rank += 1
+    total_referrers = len(await db.referrals.distinct("referrer_address"))
+    return {"items": items, "total_referrers": total_referrers}
+
 @api.get("/stats")
 async def stats():
     wallets = await db.wallets.count_documents({})
